@@ -5,13 +5,13 @@
   },
   "options": {},
   "attributes": {
-    "TextTop": {
+    "textTop": {
       "type": "richtext"
     },
-    "TextBottom": {
+    "textBottom": {
       "type": "richtext"
     },
-    "Copyright": {
+    "copyright": {
       "type": "string"
     },
     "Menu": {

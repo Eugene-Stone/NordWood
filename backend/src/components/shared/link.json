@@ -5,10 +5,10 @@
   },
   "options": {},
   "attributes": {
-    "Text": {
+    "text": {
       "type": "string"
     },
-    "Url": {
+    "url": {
       "type": "string"
     },
     "isExternal": {
@@ -19,7 +19,7 @@
       "type": "boolean",
       "default": false
     },
-    "ButtonType": {
+    "buttonType": {
       "type": "enumeration",
       "conditions": {
         "visible": {
@@ -41,7 +41,7 @@
       "type": "boolean",
       "default": false
     },
-    "Image": {
+    "image": {
       "type": "media",
       "conditions": {
         "visible": {

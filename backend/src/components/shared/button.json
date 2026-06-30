@@ -5,10 +5,10 @@
   },
   "options": {},
   "attributes": {
-    "Text": {
+    "text": {
       "type": "string"
     },
-    "ButtonType": {
+    "buttonType": {
       "type": "enumeration",
       "enum": [
         "PRIMARY",

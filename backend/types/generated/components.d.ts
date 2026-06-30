@@ -6,10 +6,10 @@ export interface LayoutFooter extends Struct.ComponentSchema {
     displayName: 'Footer';
   };
   attributes: {
-    Copyright: Schema.Attribute.String;
+    copyright: Schema.Attribute.String;
     Menu: Schema.Attribute.Component<'layout.menu-footer', false>;
-    TextBottom: Schema.Attribute.RichText;
-    TextTop: Schema.Attribute.RichText;
+    textBottom: Schema.Attribute.RichText;
+    textTop: Schema.Attribute.RichText;
   };
 }
 
@@ -45,14 +45,56 @@ export interface LayoutMenuMain extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsHero extends Struct.ComponentSchema {
+  collectionName: 'components_sections_heroes';
+  info: {
+    displayName: 'Hero';
+  };
+  attributes: {
+    image: Schema.Attribute.Media<'images'>;
+    text: Schema.Attribute.RichText;
+    title: Schema.Attribute.Text;
+  };
+}
+
+export interface SectionsServices extends Struct.ComponentSchema {
+  collectionName: 'components_sections_services';
+  info: {
+    displayName: 'Services';
+  };
+  attributes: {
+    link: Schema.Attribute.Component<'shared.link', false>;
+    text: Schema.Attribute.RichText;
+    title: Schema.Attribute.Text;
+  };
+}
+
+export interface SectionsTextSection extends Struct.ComponentSchema {
+  collectionName: 'components_sections_text_sections';
+  info: {
+    displayName: 'Text Section';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    text: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    title: Schema.Attribute.Text & Schema.Attribute.DefaultTo<'Title'>;
+  };
+}
+
 export interface SharedButton extends Struct.ComponentSchema {
   collectionName: 'components_shared_buttons';
   info: {
     displayName: 'Button';
   };
   attributes: {
-    ButtonType: Schema.Attribute.Enumeration<['PRIMARY', 'SECONDARY']>;
-    Text: Schema.Attribute.String;
+    buttonType: Schema.Attribute.Enumeration<['PRIMARY', 'SECONDARY']>;
+    text: Schema.Attribute.String;
   };
 }
 
@@ -72,14 +114,14 @@ export interface SharedLink extends Struct.ComponentSchema {
     displayName: 'Link';
   };
   attributes: {
-    ButtonType: Schema.Attribute.Enumeration<['PRIMARY', 'SECONDARY']> &
+    buttonType: Schema.Attribute.Enumeration<['PRIMARY', 'SECONDARY']> &
       Schema.Attribute.DefaultTo<'PRIMARY'>;
-    Image: Schema.Attribute.Media<'images'>;
+    image: Schema.Attribute.Media<'images'>;
     isButton: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     isExternal: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     isLogo: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    Text: Schema.Attribute.String;
-    Url: Schema.Attribute.String;
+    text: Schema.Attribute.String;
+    url: Schema.Attribute.String;
   };
 }
 
@@ -90,6 +132,9 @@ declare module '@strapi/strapi' {
       'layout.header': LayoutHeader;
       'layout.menu-footer': LayoutMenuFooter;
       'layout.menu-main': LayoutMenuMain;
+      'sections.hero': SectionsHero;
+      'sections.services': SectionsServices;
+      'sections.text-section': SectionsTextSection;
       'shared.button': SharedButton;
       'shared.lang-list': SharedLangList;
       'shared.link': SharedLink;

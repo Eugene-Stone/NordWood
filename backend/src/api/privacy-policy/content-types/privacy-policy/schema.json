@@ -1,0 +1,27 @@
+{
+  "kind": "singleType",
+  "collectionName": "privacy_policies",
+  "info": {
+    "singularName": "privacy-policy",
+    "pluralName": "privacy-policies",
+    "displayName": "Privacy Policy"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Privacy Policy"
+    },
+    "description": {
+      "type": "text"
+    },
+    "section": {
+      "type": "component",
+      "component": "sections.text-section",
+      "repeatable": false
+    }
+  }
+}

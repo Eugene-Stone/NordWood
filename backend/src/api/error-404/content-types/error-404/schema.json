@@ -1,10 +1,10 @@
 {
   "kind": "singleType",
-  "collectionName": "globals",
+  "collectionName": "error_404s",
   "info": {
-    "singularName": "global",
-    "pluralName": "globals",
-    "displayName": "Global"
+    "singularName": "error-404",
+    "pluralName": "error-404s",
+    "displayName": "Page 404"
   },
   "options": {
     "draftAndPublish": true
@@ -17,15 +17,15 @@
     "description": {
       "type": "text"
     },
-    "Header": {
+    "Link": {
       "type": "component",
-      "component": "layout.header",
+      "component": "shared.link",
       "repeatable": false
     },
-    "Footer": {
-      "type": "component",
-      "component": "layout.footer",
-      "repeatable": false
+    "all_sections": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::section.section"
     }
   }
 }

@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "all_sections",
+  "info": {
+    "singularName": "section",
+    "pluralName": "all-sections",
+    "displayName": "AllSections"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "sections": {
+      "type": "dynamiczone",
+      "components": [
+        "sections.text-section",
+        "sections.services",
+        "sections.hero"
+      ]
+    }
+  }
+}
