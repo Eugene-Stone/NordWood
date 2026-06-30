@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_layout_headers",
+  "info": {
+    "displayName": "Header"
+  },
+  "options": {},
+  "attributes": {
+    "Logo": {
+      "type": "component",
+      "component": "shared.link",
+      "repeatable": false
+    },
+    "Menu": {
+      "type": "component",
+      "component": "layout.menu-main",
+      "repeatable": false
+    },
+    "LangList": {
+      "type": "component",
+      "component": "shared.lang-list",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}

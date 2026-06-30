@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_layout_menu_footers",
+  "info": {
+    "displayName": "MenuFooter"
+  },
+  "options": {},
+  "attributes": {
+    "MenuLink": {
+      "type": "component",
+      "component": "shared.link",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

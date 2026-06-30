@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_layout_footers",
+  "info": {
+    "displayName": "Footer"
+  },
+  "options": {},
+  "attributes": {
+    "TextTop": {
+      "type": "richtext"
+    },
+    "TextBottom": {
+      "type": "richtext"
+    },
+    "Copyright": {
+      "type": "string"
+    },
+    "Menu": {
+      "type": "component",
+      "component": "layout.menu-footer",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}
