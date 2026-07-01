@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "pages",
+  "collectionName": "shared_sections",
   "info": {
-    "singularName": "page",
-    "pluralName": "pages",
-    "displayName": "Pages"
+    "singularName": "shared-section",
+    "pluralName": "shared-sections",
+    "displayName": "Shared sections"
   },
   "options": {
     "draftAndPublish": true
@@ -14,24 +14,20 @@
     "title": {
       "type": "string"
     },
-    "slug": {
-      "type": "uid",
-      "targetField": "title"
-    },
     "description": {
-      "type": "text"
+      "type": "string"
     },
-    "sections": {
+    "section": {
       "type": "dynamiczone",
       "components": [
         "sections.text-section",
         "sections.services",
-        "sections.hero",
         "sections.request",
-        "sections.opening-hours",
         "sections.map",
+        "sections.hero",
         "sections.about"
-      ]
+      ],
+      "max": 1
     }
   }
 }

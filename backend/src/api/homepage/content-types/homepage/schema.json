@@ -21,7 +21,12 @@
       "type": "dynamiczone",
       "components": [
         "sections.hero",
-        "sections.services"
+        "sections.services",
+        "sections.text-section",
+        "sections.request",
+        "sections.map",
+        "sections.about",
+        "sections.opening-hours"
       ]
     }
   }

@@ -5,10 +5,10 @@
   },
   "options": {},
   "attributes": {
-    "name": {
+    "label": {
       "type": "string"
     },
-    "label": {
+    "name": {
       "type": "string"
     },
     "placeholder": {

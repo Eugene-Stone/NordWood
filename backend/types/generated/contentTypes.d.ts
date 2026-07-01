@@ -440,30 +440,37 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiError404Error404 extends Struct.SingleTypeSchema {
-  collectionName: 'error_404s';
+export interface ApiFormForm extends Struct.CollectionTypeSchema {
+  collectionName: 'forms';
   info: {
-    displayName: 'Page 404';
-    pluralName: 'error-404s';
-    singularName: 'error-404';
+    displayName: 'Forms';
+    pluralName: 'forms';
+    singularName: 'form';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    all_sections: Schema.Attribute.Relation<'oneToOne', 'api::section.section'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text;
-    Link: Schema.Attribute.Component<'shared.link', false>;
+    description: Schema.Attribute.String;
+    errorMessage: Schema.Attribute.Text;
+    fields: Schema.Attribute.DynamicZone<
+      [
+        'forms.form-submit',
+        'forms.form-select',
+        'forms.form-radio',
+        'forms.form-input',
+        'forms.form-checkboxes',
+      ]
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::error-404.error-404'
-    > &
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::form.form'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    submitUrl: Schema.Attribute.String;
+    successMessage: Schema.Attribute.Text;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -525,7 +532,49 @@ export interface ApiHomepageHomepage extends Struct.SingleTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     sections: Schema.Attribute.DynamicZone<
-      ['sections.hero', 'sections.services']
+      [
+        'sections.hero',
+        'sections.services',
+        'sections.text-section',
+        'sections.request',
+        'sections.map',
+        'sections.about',
+        'sections.opening-hours',
+      ]
+    >;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPage404Page404 extends Struct.SingleTypeSchema {
+  collectionName: 'page_404s';
+  info: {
+    displayName: 'Page 404';
+    pluralName: 'page-404s';
+    singularName: 'page-404';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.String;
+    link: Schema.Attribute.Component<'shared.link', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::page-404.page-404'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    shared_section: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::shared-section.shared-section'
     >;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
@@ -554,7 +603,15 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     sections: Schema.Attribute.DynamicZone<
-      ['sections.text-section', 'sections.services', 'sections.hero']
+      [
+        'sections.text-section',
+        'sections.services',
+        'sections.hero',
+        'sections.request',
+        'sections.opening-hours',
+        'sections.map',
+        'sections.about',
+      ]
     >;
     slug: Schema.Attribute.UID<'title'>;
     title: Schema.Attribute.String;
@@ -630,12 +687,13 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiSectionSection extends Struct.CollectionTypeSchema {
-  collectionName: 'all_sections';
+export interface ApiSharedSectionSharedSection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'shared_sections';
   info: {
-    displayName: 'AllSections';
-    pluralName: 'all-sections';
-    singularName: 'section';
+    displayName: 'Shared sections';
+    pluralName: 'shared-sections';
+    singularName: 'shared-section';
   };
   options: {
     draftAndPublish: true;
@@ -644,16 +702,30 @@ export interface ApiSectionSection extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    description: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::section.section'
+      'api::shared-section.shared-section'
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    sections: Schema.Attribute.DynamicZone<
-      ['sections.text-section', 'sections.services', 'sections.hero']
-    >;
+    section: Schema.Attribute.DynamicZone<
+      [
+        'sections.text-section',
+        'sections.services',
+        'sections.request',
+        'sections.map',
+        'sections.hero',
+        'sections.about',
+      ]
+    > &
+      Schema.Attribute.SetMinMax<
+        {
+          max: 1;
+        },
+        number
+      >;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1203,13 +1275,14 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::error-404.error-404': ApiError404Error404;
+      'api::form.form': ApiFormForm;
       'api::global.global': ApiGlobalGlobal;
       'api::homepage.homepage': ApiHomepageHomepage;
+      'api::page-404.page-404': ApiPage404Page404;
       'api::page.page': ApiPagePage;
       'api::privacy-policy.privacy-policy': ApiPrivacyPolicyPrivacyPolicy;
       'api::review.review': ApiReviewReview;
-      'api::section.section': ApiSectionSection;
+      'api::shared-section.shared-section': ApiSharedSectionSharedSection;
       'api::terms-of-service.terms-of-service': ApiTermsOfServiceTermsOfService;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

@@ -1,13 +1,5 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
-export interface FormsForm extends Struct.ComponentSchema {
-  collectionName: 'components_forms_forms';
-  info: {
-    displayName: 'Form';
-  };
-  attributes: {};
-}
-
 export interface FormsFormCheckboxes extends Struct.ComponentSchema {
   collectionName: 'components_forms_form_checkboxes';
   info: {
@@ -43,7 +35,24 @@ export interface FormsFormSelect extends Struct.ComponentSchema {
   info: {
     displayName: 'FormSelect';
   };
-  attributes: {};
+  attributes: {
+    isRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    label: Schema.Attribute.String;
+    name: Schema.Attribute.String;
+    options: Schema.Attribute.Component<'forms.form-select-options', true>;
+    placeholder: Schema.Attribute.String;
+  };
+}
+
+export interface FormsFormSelectOptions extends Struct.ComponentSchema {
+  collectionName: 'components_forms_form_select_options';
+  info: {
+    displayName: 'FormSelectOptions';
+  };
+  attributes: {
+    label: Schema.Attribute.String;
+    value: Schema.Attribute.String;
+  };
 }
 
 export interface FormsFormSubmit extends Struct.ComponentSchema {
@@ -141,6 +150,31 @@ export interface SectionsMap extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsOpeningHours extends Struct.ComponentSchema {
+  collectionName: 'components_sections_opening_hours';
+  info: {
+    displayName: 'Opening hours';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    left_column: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    right_column: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultMarkdown';
+        }
+      >;
+    title: Schema.Attribute.Text;
+  };
+}
+
 export interface SectionsRequest extends Struct.ComponentSchema {
   collectionName: 'components_sections_requests';
   info: {
@@ -148,6 +182,7 @@ export interface SectionsRequest extends Struct.ComponentSchema {
   };
   attributes: {
     description: Schema.Attribute.Text;
+    form: Schema.Attribute.Relation<'oneToOne', 'api::form.form'>;
     title: Schema.Attribute.Text;
   };
 }
@@ -223,11 +258,11 @@ export interface SharedLink extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
-      'forms.form': FormsForm;
       'forms.form-checkboxes': FormsFormCheckboxes;
       'forms.form-input': FormsFormInput;
       'forms.form-radio': FormsFormRadio;
       'forms.form-select': FormsFormSelect;
+      'forms.form-select-options': FormsFormSelectOptions;
       'forms.form-submit': FormsFormSubmit;
       'layout.footer': LayoutFooter;
       'layout.header': LayoutHeader;
@@ -236,6 +271,7 @@ declare module '@strapi/strapi' {
       'sections.about': SectionsAbout;
       'sections.hero': SectionsHero;
       'sections.map': SectionsMap;
+      'sections.opening-hours': SectionsOpeningHours;
       'sections.request': SectionsRequest;
       'sections.services': SectionsServices;
       'sections.text-section': SectionsTextSection;

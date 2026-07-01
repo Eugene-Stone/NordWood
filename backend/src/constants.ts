@@ -1,15 +1,4 @@
 export const GLOBAL_POPULATE = {
-	// sub_1: {
-	// 	populate: '*',
-	// },
-	// sub_2: {
-	// 	populate: {
-	// 		sub: {
-	// 			populate: '*',
-	// 		},
-	// 	},
-	// },
-
 	Header: {
 		populate: {
 			Logo: {
@@ -46,18 +35,64 @@ export const GLOBAL_POPULATE = {
 
 export const SECTIONS_POPULATE = {
 	on: {
+		'sections.about': {
+			populate: '*',
+			// populate: {
+			// 	image: true,
+			// 	image: {
+			// 		fields: ["alternativeText", "url"] //  Можно перечислить конкретные
+			// 	}
+			// },
+		},
 		'sections.hero': {
 			populate: {
 				image: true,
-				// image: {
-				// 	fields: ["alternativeText", "url"] //  Можно перечислить конкретные
-				// }
+			},
+		},
+		'sections.map': {
+			populate: '*',
+		},
+		'sections.opening-hours': {
+			populate: '*',
+		},
+		'sections.request': {
+			// 1. У компонента request открываем populate, чтобы зайти внутрь его полей
+			populate: {
+				// 2. Раскрываем поле связи "form"
+				form: {
+					populate: {
+						// 3. Внутри формы раскрываем динамическую зону "fields"
+						fields: {
+							on: {
+								// 4. И только тут перечисляем компоненты инпутов из категории "form"
+								'forms.form-input': {
+									populate: '*',
+								},
+								'forms.form-select': {
+									populate: '*',
+								},
+								'forms.form-checkboxes': {
+									populate: '*',
+								},
+								'forms.form-radio': {
+									populate: '*',
+								},
+								'forms.form-submit': {
+									populate: '*',
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 		'sections.services': {
 			populate: {
 				link: true,
 			},
+		},
+		'sections.text-section': {
+			populate: '*',
 		},
 	},
 } as const;

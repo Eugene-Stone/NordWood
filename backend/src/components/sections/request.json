@@ -10,6 +10,11 @@
     },
     "description": {
       "type": "text"
+    },
+    "form": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::form.form"
     }
   },
   "config": {}
