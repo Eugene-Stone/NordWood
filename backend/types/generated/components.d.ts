@@ -1,5 +1,59 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface FormsForm extends Struct.ComponentSchema {
+  collectionName: 'components_forms_forms';
+  info: {
+    displayName: 'Form';
+  };
+  attributes: {};
+}
+
+export interface FormsFormCheckboxes extends Struct.ComponentSchema {
+  collectionName: 'components_forms_form_checkboxes';
+  info: {
+    displayName: 'FormCheckboxes';
+  };
+  attributes: {};
+}
+
+export interface FormsFormInput extends Struct.ComponentSchema {
+  collectionName: 'components_forms_form_inputs';
+  info: {
+    displayName: 'FormInput';
+  };
+  attributes: {
+    isRequired: Schema.Attribute.Boolean;
+    label: Schema.Attribute.String;
+    name: Schema.Attribute.String;
+    placeholder: Schema.Attribute.String;
+    type: Schema.Attribute.Enumeration<['text', 'email']>;
+  };
+}
+
+export interface FormsFormRadio extends Struct.ComponentSchema {
+  collectionName: 'components_forms_form_radios';
+  info: {
+    displayName: 'FormRadio';
+  };
+  attributes: {};
+}
+
+export interface FormsFormSelect extends Struct.ComponentSchema {
+  collectionName: 'components_forms_form_selects';
+  info: {
+    displayName: 'FormSelect';
+  };
+  attributes: {};
+}
+
+export interface FormsFormSubmit extends Struct.ComponentSchema {
+  collectionName: 'components_forms_form_submits';
+  info: {
+    displayName: 'FormSubmit';
+  };
+  attributes: {};
+}
+
 export interface LayoutFooter extends Struct.ComponentSchema {
   collectionName: 'components_layout_footers';
   info: {
@@ -45,6 +99,25 @@ export interface LayoutMenuMain extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsAbout extends Struct.ComponentSchema {
+  collectionName: 'components_sections_abouts';
+  info: {
+    displayName: 'About';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images'>;
+    text: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    title: Schema.Attribute.Text;
+  };
+}
+
 export interface SectionsHero extends Struct.ComponentSchema {
   collectionName: 'components_sections_heroes';
   info: {
@@ -53,6 +126,28 @@ export interface SectionsHero extends Struct.ComponentSchema {
   attributes: {
     image: Schema.Attribute.Media<'images'>;
     text: Schema.Attribute.RichText;
+    title: Schema.Attribute.Text;
+  };
+}
+
+export interface SectionsMap extends Struct.ComponentSchema {
+  collectionName: 'components_sections_maps';
+  info: {
+    displayName: 'Map';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    title: Schema.Attribute.Text;
+  };
+}
+
+export interface SectionsRequest extends Struct.ComponentSchema {
+  collectionName: 'components_sections_requests';
+  info: {
+    displayName: 'Request';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
     title: Schema.Attribute.Text;
   };
 }
@@ -128,11 +223,20 @@ export interface SharedLink extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'forms.form': FormsForm;
+      'forms.form-checkboxes': FormsFormCheckboxes;
+      'forms.form-input': FormsFormInput;
+      'forms.form-radio': FormsFormRadio;
+      'forms.form-select': FormsFormSelect;
+      'forms.form-submit': FormsFormSubmit;
       'layout.footer': LayoutFooter;
       'layout.header': LayoutHeader;
       'layout.menu-footer': LayoutMenuFooter;
       'layout.menu-main': LayoutMenuMain;
+      'sections.about': SectionsAbout;
       'sections.hero': SectionsHero;
+      'sections.map': SectionsMap;
+      'sections.request': SectionsRequest;
       'sections.services': SectionsServices;
       'sections.text-section': SectionsTextSection;
       'shared.button': SharedButton;

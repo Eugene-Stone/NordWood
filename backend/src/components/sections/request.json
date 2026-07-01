@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_sections_requests",
+  "info": {
+    "displayName": "Request"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "text"
+    },
+    "description": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}
