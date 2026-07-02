@@ -1,5 +1,5 @@
-// export const FRONTEND_URL = 'http://localhost:3001';
-export const FRONTEND_URL = 'https://eugene-stone.github.io/NordWood/';
+export const FRONTEND_URL = 'http://localhost:5173/NordWood/';
+// export const FRONTEND_URL = 'https://eugene-stone.github.io/NordWood/';
 
 export const GLOBAL_POPULATE = {
 	Header: {
@@ -46,6 +46,15 @@ export const SECTIONS_POPULATE = {
 			// 		fields: ["alternativeText", "url"] //  Можно перечислить конкретные
 			// 	}
 			// },
+		},
+		'sections.gallery': {
+			populate: {
+				gallery: {
+					populate: {
+						images: true,
+					},
+				},
+			},
 		},
 		'sections.hero': {
 			populate: {

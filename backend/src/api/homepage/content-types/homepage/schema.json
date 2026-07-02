@@ -26,7 +26,8 @@
         "sections.request",
         "sections.map",
         "sections.about",
-        "sections.opening-hours"
+        "sections.opening-hours",
+        "sections.gallery"
       ]
     }
   }

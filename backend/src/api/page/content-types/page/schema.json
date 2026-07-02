@@ -30,7 +30,8 @@
         "sections.request",
         "sections.opening-hours",
         "sections.map",
-        "sections.about"
+        "sections.about",
+        "sections.gallery"
       ]
     }
   }

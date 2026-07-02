@@ -127,6 +127,18 @@ export interface SectionsAbout extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsGallery extends Struct.ComponentSchema {
+  collectionName: 'components_sections_galleries';
+  info: {
+    displayName: 'Gallery';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    gallery: Schema.Attribute.Relation<'oneToOne', 'api::gallery.gallery'>;
+    title: Schema.Attribute.Text;
+  };
+}
+
 export interface SectionsHero extends Struct.ComponentSchema {
   collectionName: 'components_sections_heroes';
   info: {
@@ -269,6 +281,7 @@ declare module '@strapi/strapi' {
       'layout.menu-footer': LayoutMenuFooter;
       'layout.menu-main': LayoutMenuMain;
       'sections.about': SectionsAbout;
+      'sections.gallery': SectionsGallery;
       'sections.hero': SectionsHero;
       'sections.map': SectionsMap;
       'sections.opening-hours': SectionsOpeningHours;
