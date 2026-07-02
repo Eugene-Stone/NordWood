@@ -1,3 +1,6 @@
+// export const FRONTEND_URL = 'http://localhost:3001';
+export const FRONTEND_URL = 'https://eugene-stone.github.io/NordWood/';
+
 export const GLOBAL_POPULATE = {
 	Header: {
 		populate: {
