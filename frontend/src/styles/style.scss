@@ -4172,6 +4172,8 @@ html.int-expl .img-svg .int-expl-image {
 }
 
 .btn-top {
+	appearance: none;
+	border: none;
 	position: fixed;
 	z-index: 555;
 	right: 10px;
@@ -4184,7 +4186,7 @@ html.int-expl .img-svg .int-expl-image {
 	-o-transition: .3s;
 	-moz-transition: .3s;
 	transition: .3s;
-	background-image: url("img/_style/_svg/btn-top.svg");
+	background-image: url("/img/_style/_svg/btn-top.svg");
 	background-position: center;
 	background-repeat: no-repeat;
 	-webkit-background-size: 3.5rem 3.5rem;
@@ -4197,7 +4199,6 @@ html.int-expl .img-svg .int-expl-image {
 	-webkit-box-shadow: 0 0 3px 1px rgba(255, 255, 255, 0.25);
 	-moz-box-shadow: 0 0 3px 1px rgba(255, 255, 255, 0.25);
 	box-shadow: 0 0 3px 1px rgba(255, 255, 255, 0.25);
-	opacity: 0
 }
 
 .btn-top.on {
@@ -4416,7 +4417,7 @@ i[class*="-ic"] {
 
 .main-mnu {
 	color: #000;
-	font-size: 22px
+	font-size: 22px;
 }
 
 .main-mnu>li {
@@ -5259,4 +5260,22 @@ html.touch .main-sub-lnk .btn-sub-mnu {
    .form__request .btn {
       width: 100%;
    }
+}
+
+
+
+.main-mnu {
+	button {
+		appearance: none;
+		border: none;
+		background-color: transparent;
+		font-family: inherit;
+		font-size: inherit;
+		font-weight: inherit;
+		padding: 0;
+	}
+
+	li > button {
+		@extend a;
+	}
 }

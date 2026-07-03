@@ -6,7 +6,7 @@ export default function Footer() {
 	const { globalData } = useGlobalDataContext();
 	const { Logo } = globalData!.Header!;
 	const { Menu, textTop, textBottom, copyright } = globalData!.Footer!;
-	console.log(Logo);
+	// console.log(Logo);
 
 	const menuFooter = Menu?.MenuLink.map((link, index) => {
 		let target;

@@ -1,0 +1,33 @@
+import { useState, useEffect } from 'react';
+import { scrollToTop } from '../utils/scrollToTop';
+
+const ButtonScrollTop = () => {
+	const [isVisible, setIsVisible] = useState(false);
+
+	// Show button when page is scrolled down
+	const toggleVisibility = () => {
+		if (window.pageYOffset > 300) {
+			// Show button after scrolling 300px
+			setIsVisible(true);
+		} else {
+			setIsVisible(false);
+		}
+	};
+
+	useEffect(() => {
+		window.addEventListener('scroll', toggleVisibility);
+
+		// Clean up the event listener when the component unmounts
+		return () => {
+			window.removeEventListener('scroll', toggleVisibility);
+		};
+	}, []);
+
+	return (
+		<div className="scroll-to-top">
+			{isVisible && <button onClick={scrollToTop} className="btn-top"></button>}
+		</div>
+	);
+};
+
+export default ButtonScrollTop;

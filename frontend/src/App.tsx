@@ -7,10 +7,13 @@ import Home from './pages/Home';
 import NotFoundPage from './pages/NotFoundPage';
 
 import useGlobalDataContext from './context/useGlobalDataContext';
+import ReloadToTop from './utils/ReloadToTop';
+import ButtonScrollTop from './components/ButtonScrollTop';
 
 function Layout() {
 	return (
 		<div className="wrapper">
+			<ReloadToTop />
 			<Header />
 			<div className="layout">
 				<main className="page-wrap">
@@ -19,7 +22,7 @@ function Layout() {
 			</div>
 
 			<Footer />
-			<div className="btn-top"></div>
+			<ButtonScrollTop />
 		</div>
 	);
 }
