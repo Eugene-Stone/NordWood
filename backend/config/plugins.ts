@@ -1,5 +1,5 @@
 import type { Core } from '@strapi/strapi';
-import { FRONTEND_URL } from '../constants';
+import { FRONTEND_URL } from '../CONSTANTS';
 
 // const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin => ({});
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin => ({

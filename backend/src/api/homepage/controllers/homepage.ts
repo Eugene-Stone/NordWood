@@ -3,7 +3,7 @@
  */
 
 import { factories } from '@strapi/strapi';
-import { SECTIONS_POPULATE } from '../../../../constants';
+import { SECTIONS_POPULATE } from '../../../../CONSTANTS';
 
 // export default factories.createCoreController('api::homepage.homepage');
 export default factories.createCoreController('api::homepage.homepage', ({ strapi }) => ({

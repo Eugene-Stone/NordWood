@@ -1,45 +1,46 @@
 {
-  "name": "backend",
-  "version": "0.1.0",
-  "private": true,
-  "description": "A Strapi application",
-  "scripts": {
-    "build": "strapi build",
-    "console": "strapi console",
-    "deploy": "strapi deploy",
-    "dev": "strapi develop",
-    "develop": "strapi develop",
-    "start": "strapi start",
-    "strapi": "strapi",
-    "upgrade": "npx @strapi/upgrade latest",
-    "upgrade:dry": "npx @strapi/upgrade latest --dry"
-  },
-  "dependencies": {
-    "@_sh/strapi-plugin-ckeditor": "^7.1.1",
-    "@strapi/plugin-cloud": "5.49.0",
-    "@strapi/plugin-documentation": "^5.49.0",
-    "@strapi/plugin-users-permissions": "5.49.0",
-    "@strapi/strapi": "5.49.0",
-    "better-sqlite3": "12.8.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.0.0",
-    "strapi-dz-component-duplicator": "^0.1.6",
-    "strapi-plugin-preview-button": "^3.0.2",
-    "styled-components": "^6.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "typescript": "^5"
-  },
-  "engines": {
-    "node": ">=20.0.0 <=26.x.x",
-    "npm": ">=6.0.0"
-  },
-  "strapi": {
-    "uuid": "ad39063e-a7e1-4b76-9348-d842570bf5d9",
-    "installId": "d2f4b3b35ff82cb79b9370bb86bbc8371cc60a20fc5b3257ac3843854debc21e"
-  }
+	"name": "backend",
+	"version": "0.1.0",
+	"private": true,
+	"description": "A Strapi application",
+	"scripts": {
+		"build": "node generate-barrels.js && strapi build",
+		"console": "strapi console",
+		"deploy": "strapi deploy",
+		"dev": "strapi develop",
+		"develop": "node generate-barrels.js && strapi develop",
+		"start": "strapi start",
+		"strapi": "strapi",
+		"upgrade": "npx @strapi/upgrade latest",
+		"upgrade:dry": "npx @strapi/upgrade latest --dry"
+	},
+	"dependencies": {
+		"@_sh/strapi-plugin-ckeditor": "^7.1.1",
+		"@strapi/plugin-cloud": "5.49.0",
+		"@strapi/plugin-documentation": "^5.49.0",
+		"@strapi/plugin-users-permissions": "5.49.0",
+		"@strapi/strapi": "5.49.0",
+		"better-sqlite3": "12.8.0",
+		"react": "^18.0.0",
+		"react-dom": "^18.0.0",
+		"react-router-dom": "^6.0.0",
+		"strapi-dz-component-duplicator": "^0.1.6",
+		"strapi-plugin-preview-button": "^3.0.2",
+		"strapi-plugin-schemas-to-ts": "^1.3.2",
+		"styled-components": "^6.0.0"
+	},
+	"devDependencies": {
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"typescript": "^5"
+	},
+	"engines": {
+		"node": ">=20.0.0 <=26.x.x",
+		"npm": ">=6.0.0"
+	},
+	"strapi": {
+		"uuid": "ad39063e-a7e1-4b76-9348-d842570bf5d9",
+		"installId": "d2f4b3b35ff82cb79b9370bb86bbc8371cc60a20fc5b3257ac3843854debc21e"
+	}
 }

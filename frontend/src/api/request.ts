@@ -1,9 +1,17 @@
-const BASE_URL = 'http://localhost:1337';
+const BASE_URL = 'http://localhost:1337/api';
 
+export default async function request<T>(endpoint = '/', options: RequestInit = {}): Promise<T> {
+	const url = `${BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
+	const headers: HeadersInit = options.body ? { 'Content-Type': 'application/json' } : {};
 
-export default async function request<T>(endpoint='/', options: RequestInit = {}): Promise<T>{
-	const url = `${BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`
+	const response = await fetch(url, {
+		headers,
+		...options,
+	});
 
-	return response.json()
-})
+	if (!response.ok) {
+		throw new Error(`HTTP error: ${response.status}`);
+	}
+	return response.json();
+}

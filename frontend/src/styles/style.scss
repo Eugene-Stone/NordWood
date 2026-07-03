@@ -4080,7 +4080,10 @@ html.int-expl .img-svg .int-expl-image {
 }
 
 .btn-more-wrap {
-	margin-top: 8rem
+	margin-top: 8rem;
+	&.center {
+		justify-content: center;
+	}
 }
 
 .btn,

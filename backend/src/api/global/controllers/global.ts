@@ -3,7 +3,7 @@
  */
 
 import { factories } from '@strapi/strapi';
-import { GLOBAL_POPULATE } from '../../../../constants';
+import { GLOBAL_POPULATE } from '../../../../CONSTANTS';
 
 // export default factories.createCoreController('api::global.global');
 export default factories.createCoreController('api::global.global', ({ strapi }) => ({

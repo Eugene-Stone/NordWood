@@ -259,6 +259,7 @@ export interface SharedLink extends Struct.ComponentSchema {
     buttonType: Schema.Attribute.Enumeration<['PRIMARY', 'SECONDARY']> &
       Schema.Attribute.DefaultTo<'PRIMARY'>;
     image: Schema.Attribute.Media<'images'>;
+    isAnchor: Schema.Attribute.Boolean;
     isButton: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     isExternal: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     isLogo: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;

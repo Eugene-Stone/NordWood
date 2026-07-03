@@ -1,6 +1,29 @@
-import React from 'react';
+import useGlobalDataContext from '../context/useGlobalDataContext';
+import { BACKEND_URL } from '../../CONSTANTS';
+import HeaderLangList from './HeaderLangList';
 
 export default function Header() {
+	const { globalData } = useGlobalDataContext();
+	// if (!globalData?.Header) return null;
+
+	const { LangList, Logo, Menu } = globalData!.Header!;
+
+	const menuHeader = Menu?.MenuLink.map((link, index) => {
+		let target;
+		if (link.isExternal) {
+			target = '_blank';
+		}
+		return (
+			<li key={index}>
+				<a href={link.url} target={target}>
+					{link.text}
+				</a>
+			</li>
+		);
+	});
+
+	// console.log(LangList);
+
 	return (
 		<>
 			<header className="head-general">
@@ -10,77 +33,20 @@ export default function Header() {
 							<div className="head-cell">
 								<div className="logo-wrap">
 									<a href="/" className="logo">
-										<img src="assets/img/logo.png" alt="NordWood" />
+										<img
+											src={BACKEND_URL + Logo?.image?.url}
+											alt={Logo?.text}
+										/>
 									</a>
 								</div>
 							</div>
 							<div className="head-cell">
 								<nav className="mnu-wrap">
 									<div className="menu-header-menu-container">
-										<ul className="main-mnu">
-											<li>
-												<a href="#service" aria-current="page">
-													Наши услуги
-												</a>
-											</li>
-											<li>
-												<a href="#gallery" aria-current="page">
-													Наши работы
-												</a>
-											</li>
-											<li>
-												<a href="#opening-hours" aria-current="page">
-													Время работы
-												</a>
-											</li>
-											<li>
-												<a href="#about" aria-current="page">
-													О компании
-												</a>
-											</li>
-											<li>
-												<a href="#map" aria-current="page">
-													Как нас найти
-												</a>
-											</li>
-											<li>
-												<a href="page.html" aria-current="page">
-													Страница
-												</a>
-											</li>
-										</ul>
+										{menuHeader && <ul className="main-mnu">{menuHeader}</ul>}
 									</div>
 								</nav>
-								<div className="lang-choose hover-dropdown">
-									<div className="hover-dropdown-btn">
-										<span>Ru</span>
-										<i className="hover-dropdown-ic">
-											<svg
-												width={24}
-												height={25}
-												viewBox="0 0 24 25"
-												fill="none"
-												xmlns="http://www.w3.org/2000/svg">
-												<path
-													d="M3.87039 6.66504L2.10039 8.43504L12.0004 18.335L21.9004 8.43504L20.1304 6.66504L12.0004 14.795L3.87039 6.66504V6.66504Z"
-													fill="currentColor"
-												/>
-											</svg>
-										</i>
-									</div>
-									<div className="lang-lst hover-dropdown-box">
-										<div className="hover-dropdown-inner">
-											<ul>
-												<li>
-													<a href="/ru/">Русский</a>
-												</li>
-												<li>
-													<a href="/en/">English</a>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
+								{LangList && <HeaderLangList langList={LangList} />}
 								<button className="toggle-btn">
 									<span />
 								</button>

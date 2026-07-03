@@ -26,3 +26,4 @@ _NOTES.txt
 *.njsproj
 *.sln
 *.sw?
+/terminal
