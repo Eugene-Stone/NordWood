@@ -3,14 +3,17 @@
 export interface Map {
   title?: string;
   description?: string;
+  location?: any;
 }
 export interface Map_Plain {
   title?: string;
   description?: string;
+  location?: any;
 }
 
 export interface Map_NoRelations {
   title?: string;
   description?: string;
+  location?: any;
 }
 

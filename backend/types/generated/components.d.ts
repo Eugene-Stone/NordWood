@@ -158,6 +158,13 @@ export interface SectionsMap extends Struct.ComponentSchema {
   };
   attributes: {
     description: Schema.Attribute.Text;
+    location: Schema.Attribute.JSON &
+      Schema.Attribute.CustomField<
+        'plugin::strapi-location-picker.location-picker',
+        {
+          info: true;
+        }
+      >;
     title: Schema.Attribute.Text;
   };
 }
@@ -180,7 +187,7 @@ export interface SectionsOpeningHours extends Struct.ComponentSchema {
       Schema.Attribute.CustomField<
         'plugin::ckeditor5.CKEditor',
         {
-          preset: 'defaultMarkdown';
+          preset: 'defaultHtml';
         }
       >;
     title: Schema.Attribute.Text;

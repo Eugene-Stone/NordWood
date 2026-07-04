@@ -2,11 +2,11 @@ import ReactMarkdown from 'react-markdown';
 
 import type { Hero as HeroType } from '@backend-types/types';
 
-type HeroProps = {
+type Props = {
 	data: HeroType.Hero_Plain;
 };
 
-export default function Hero({ data }: HeroProps) {
+export default function Services({ data }: Props) {
 	const { title, text, image } = data;
 
 	// console.log(data);

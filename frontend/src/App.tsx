@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 import Home from './pages/Home';
+import Page from './pages/Page';
 import NotFoundPage from './pages/NotFoundPage';
 
 import useGlobalDataContext from './context/useGlobalDataContext';
@@ -35,6 +36,8 @@ const router = createBrowserRouter(
 			errorElement: <NotFoundPage />,
 			children: [
 				{ index: true, element: <Home /> },
+				{ path: '404', element: <NotFoundPage /> },
+				{ path: '/:slug', element: <Page /> },
 				{ path: '*', element: <NotFoundPage /> },
 			],
 		},

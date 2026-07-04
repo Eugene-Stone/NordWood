@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function NotFoundPage() {
 	return (
@@ -12,9 +13,9 @@ export default function NotFoundPage() {
 					<h1 className="h1-title">404 not found</h1>
 
 					<div className="btn-more-wrap center">
-						<a href="/" className="btn">
+						<Link to="/" className="btn">
 							Go to home
-						</a>
+						</Link>
 					</div>
 				</div>
 

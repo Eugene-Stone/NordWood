@@ -1,29 +1,66 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
 import type { GalleryComponent } from '@backend-types/types';
 import { BACKEND_URL } from '../../CONSTANTS';
 
-import { MasonryPhotoAlbum } from 'react-photo-album';
-import 'react-photo-album/masonry.css';
-
+import Masonry from 'masonry-layout';
+import imagesLoaded from 'imagesloaded';
 import Lightbox from 'yet-another-react-lightbox';
 import Counter from 'yet-another-react-lightbox/plugins/counter';
 import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/counter.css';
 
-type GalleryProps = {
+type Props = {
 	data: GalleryComponent.GalleryComponent_Plain;
 };
 
-export default function Gallery({ data }: GalleryProps) {
+export default function Gallery({ data }: Props) {
+	const { title, gallery } = data;
+
 	const [index, setIndex] = useState(-1);
 
-	const { title, gallery } = data;
+	const masonryRef = useRef<HTMLDivElement>(null);
+	const masonryInstance = useRef<Masonry | null>(null);
+
 	const images = gallery?.images;
 
-	const slides = images?.map((img, i) => {
-		// console.log(img.url);
+	const slidesLightbox = images?.map((img, i) => {
 		return { src: BACKEND_URL + img.url };
 	});
+
+	// Создание
+	useEffect(() => {
+		if (!masonryRef.current) return;
+
+		masonryInstance.current = new Masonry(masonryRef.current, {
+			itemSelector: '.gallery-itm',
+			percentPosition: true,
+		});
+
+		return () => {
+			masonryInstance.current?.destroy?.();
+			masonryInstance.current = null;
+		};
+	}, []);
+
+	// Когда изображения изменились:
+	useEffect(() => {
+		if (!masonryRef.current || !masonryInstance.current) return;
+
+		imagesLoaded(masonryRef.current, () => {
+			masonryInstance.current?.reloadItems?.();
+			masonryInstance.current?.layout?.();
+		});
+	}, [images]);
+
+	// При изменении размера окна
+	useEffect(() => {
+		const resize = () => masonryInstance.current?.layout?.();
+
+		window.addEventListener('resize', resize);
+
+		return () => window.removeEventListener('resize', resize);
+	}, []);
 
 	const photos =
 		images?.map((image) => ({
@@ -46,8 +83,7 @@ export default function Gallery({ data }: GalleryProps) {
 
 				<div className="container-fluid">
 					<div className="gallery-box masonry-box">
-						{/* Old code */}
-						<div className="gallery-lst masonry-lst hidden">
+						<div ref={masonryRef} className="gallery-lst masonry-lst">
 							{images?.map((image, i) => {
 								return (
 									<div key={i} className="gallery-itm masonry-itm">
@@ -68,26 +104,10 @@ export default function Gallery({ data }: GalleryProps) {
 							})}
 						</div>
 
-						<MasonryPhotoAlbum
-							photos={photos}
-							columns={(containerWidth) => {
-								if (containerWidth < 768) return 1;
-								if (containerWidth < 992) return 2;
-								return 3;
-							}}
-							// spacing={30}
-							spacing={(containerWidth) => {
-								if (containerWidth < 768) return 10;
-								if (containerWidth < 992) return 20;
-								return 30;
-							}}
-							onClick={({ index }) => setIndex(index)}
-						/>
-
-						{slides && (
+						{slidesLightbox && (
 							<Lightbox
 								index={index}
-								slides={slides}
+								slides={slidesLightbox}
 								open={index >= 0}
 								close={() => setIndex(-1)}
 								plugins={[Counter]}

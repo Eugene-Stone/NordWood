@@ -4898,9 +4898,16 @@ html.touch .main-sub-lnk .btn-sub-mnu {
 }
 
 .gallery-itm {
+ width: 33.333%;
 	padding-left: 3rem;
 	padding-right: 3rem;
 	padding-top: 6rem
+}
+
+@media (max-width:767px){
+    .gallery-itm{
+        width:50%;
+    }
 }
 
 .gallery-itm-lnk {

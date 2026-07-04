@@ -2,8 +2,6 @@ import useGlobalDataContext from '../context/useGlobalDataContext';
 import { BACKEND_URL } from '../../CONSTANTS';
 import HeaderMenu from './HeaderMenu';
 import HeaderLangList from './HeaderLangList';
-import { NavLink } from 'react-router-dom';
-import { scrollToTop } from '../utils/scrollToTop';
 
 export default function Header() {
 	const { globalData } = useGlobalDataContext();

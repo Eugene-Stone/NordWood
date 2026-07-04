@@ -31,7 +31,7 @@ export default function HeaderScrollToSection({
 		setTimeout(() => {
 			scroller.scrollTo(to.replace('#', ''), {
 				smooth: true,
-				offset: -150,
+				offset: -70,
 				duration: 900,
 			});
 		}, 500);
@@ -50,7 +50,7 @@ export default function HeaderScrollToSection({
 					activeClass="active"
 					onSetActive={handleSetActive}
 					smooth={true}
-					offset={-150}
+					offset={-70}
 					duration={900}>
 					{children}
 				</Link>
