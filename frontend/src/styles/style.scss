@@ -4561,7 +4561,7 @@ html.touch .main-sub-lnk .btn-sub-mnu {
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
 	.logo {
-		height: 20rem !important
+		height: 12rem !important
 	}
 }
 
@@ -4699,7 +4699,7 @@ html.touch .main-sub-lnk .btn-sub-mnu {
 .head-general,
 .head-minor {
 	color: inherit;
-	height: 38rem
+	height: 18rem
 }
 
 .head-general.fixed .head-top,
@@ -4716,7 +4716,7 @@ html.touch .main-sub-lnk .btn-sub-mnu {
 
 .head-general.fixed .logo,
 .fixed.head-minor .logo {
-	height: 16rem
+	height: 10rem
 }
 
 .head-top {
@@ -4755,7 +4755,7 @@ html.touch .main-sub-lnk .btn-sub-mnu {
 }
 
 .head-cell {
-	padding: 6rem 0;
+	padding: 3rem 0;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -moz-box;
@@ -4774,7 +4774,7 @@ html.touch .main-sub-lnk .btn-sub-mnu {
 
 .logo {
 	display: block;
-	height: 26rem
+	height: 12rem
 }
 
 .logo img {
@@ -4889,16 +4889,23 @@ html.touch .main-sub-lnk .btn-sub-mnu {
 	margin-right: -3rem
 }
 
+.my-masonry-grid {
+  display: flex;
+  width: auto;
+}
+.my-masonry-grid_column {
+  background-clip: padding-box;
+}
+
 .gallery-itm {
-	width: 33.33%;
-	min-width: 33.33%;
 	padding-left: 3rem;
 	padding-right: 3rem;
 	padding-top: 6rem
 }
 
 .gallery-itm-lnk {
-	display: block
+	display: block;
+	cursor: pointer;
 }
 
 .gallery-itm-lnk img {
@@ -5045,11 +5052,6 @@ html.touch .main-sub-lnk .btn-sub-mnu {
 
 	body {
 		font-size: 5rem
-	}
-
-	.gallery-itm {
-		width: 50%;
-		min-width: 50%
 	}
 }
 
