@@ -3,7 +3,7 @@
  */
 
 import { factories } from '@strapi/strapi';
-import { SECTIONS_POPULATE } from '../../../../CONSTANTS';
+import { PAGE_SEO, SECTIONS_POPULATE } from '../../../../CONSTANTS';
 
 // export default factories.createCoreController('api::page.page');
 export default factories.createCoreController('api::page.page', ({ strapi }) => ({
@@ -21,6 +21,7 @@ export default factories.createCoreController('api::page.page', ({ strapi }) => 
 				},
 				populate: {
 					sections: SECTIONS_POPULATE as any,
+					seo: PAGE_SEO,
 				},
 			});
 

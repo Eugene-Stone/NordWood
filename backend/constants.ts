@@ -108,3 +108,12 @@ export const SECTIONS_POPULATE = {
 		},
 	},
 } as const;
+
+export const PAGE_SEO = {
+	// populate: '*',
+	populate: {
+		ogImage: {
+			populate: '*',
+		},
+	},
+} as const;

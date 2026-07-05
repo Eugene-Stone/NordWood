@@ -33,6 +33,11 @@
         "sections.about",
         "sections.gallery"
       ]
+    },
+    "seo": {
+      "type": "component",
+      "component": "layout.seo",
+      "repeatable": false
     }
   }
 }

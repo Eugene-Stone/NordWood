@@ -1,6 +1,7 @@
 import { useParams, Navigate } from 'react-router-dom';
 import usePageData from '../hooks/usePageData';
 import DynamicSections from '../components/DynamicSections';
+import Seo from '../components/Seo';
 
 export default function Home() {
 	const { slug } = useParams();
@@ -15,5 +16,10 @@ export default function Home() {
 
 	const sections = pageData?.sections ?? [];
 
-	return <DynamicSections sections={sections} />;
+	return (
+		<>
+			{pageData?.seo && <Seo seo={pageData.seo} />}
+			<DynamicSections sections={sections} />
+		</>
+	);
 }

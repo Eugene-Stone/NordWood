@@ -25,6 +25,7 @@ export * as Footer from '../src/components/layout/interfaces/Footer';
 export * as Header from '../src/components/layout/interfaces/Header';
 export * as MenuFooter from '../src/components/layout/interfaces/MenuFooter';
 export * as MenuMain from '../src/components/layout/interfaces/MenuMain';
+export * as Seo from '../src/components/layout/interfaces/Seo';
 export * as About from '../src/components/sections/interfaces/About';
 export * as GalleryComponent from '../src/components/sections/interfaces/GalleryComponent';
 export * as Hero from '../src/components/sections/interfaces/Hero';

@@ -573,6 +573,7 @@ export interface ApiHomepageHomepage extends Struct.SingleTypeSchema {
         'sections.gallery',
       ]
     >;
+    seo: Schema.Attribute.Component<'layout.seo', false>;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -645,6 +646,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'sections.gallery',
       ]
     >;
+    seo: Schema.Attribute.Component<'layout.seo', false>;
     slug: Schema.Attribute.UID<'title'>;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;

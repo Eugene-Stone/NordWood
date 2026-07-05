@@ -108,6 +108,26 @@ export interface LayoutMenuMain extends Struct.ComponentSchema {
   };
 }
 
+export interface LayoutSeo extends Struct.ComponentSchema {
+  collectionName: 'components_layout_seos';
+  info: {
+    displayName: 'SEO';
+  };
+  attributes: {
+    canonical: Schema.Attribute.String;
+    metaDescription: Schema.Attribute.Text;
+    metaKeywords: Schema.Attribute.Text;
+    metaTitle: Schema.Attribute.Text;
+    nofollow: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    noindex: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    ogDescription: Schema.Attribute.Text;
+    ogImage: Schema.Attribute.Media<'images'>;
+    ogTitle: Schema.Attribute.Text;
+    ogType: Schema.Attribute.String & Schema.Attribute.DefaultTo<'website'>;
+    structuredData: Schema.Attribute.Text;
+  };
+}
+
 export interface SectionsAbout extends Struct.ComponentSchema {
   collectionName: 'components_sections_abouts';
   info: {
@@ -288,6 +308,7 @@ declare module '@strapi/strapi' {
       'layout.header': LayoutHeader;
       'layout.menu-footer': LayoutMenuFooter;
       'layout.menu-main': LayoutMenuMain;
+      'layout.seo': LayoutSeo;
       'sections.about': SectionsAbout;
       'sections.gallery': SectionsGallery;
       'sections.hero': SectionsHero;
