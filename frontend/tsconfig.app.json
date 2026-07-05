@@ -6,12 +6,12 @@
 		"module": "esnext",
 		"types": ["vite/client"],
 		"allowArbitraryExtensions": true,
-		"skipLibCheck": true,
+		"skipLibCheck": true, // Github actions
 
 		/* Bundler mode */
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
-		"verbatimModuleSyntax": false,
+		"verbatimModuleSyntax": false, // Github actions
 		"moduleDetection": "force",
 		"noEmit": true,
 		"jsx": "react-jsx",
@@ -19,7 +19,7 @@
 		/* Linting */
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
-		"erasableSyntaxOnly": false,
+		"erasableSyntaxOnly": false, // Github actions
 		"noFallthroughCasesInSwitch": true,
 
 		/* Импорт типов из бекенда */
@@ -27,5 +27,6 @@
 			"@backend-types/*": ["../backend/*"]
 		}
 	},
-	"include": ["src"]
+	"include": ["src"],
+	"exclude": ["../backend"] // Github actions
 }
