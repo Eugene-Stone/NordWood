@@ -6,14 +6,14 @@ import { FormSelectOptions_NoRelations } from './FormSelectOptions';
 
 export interface FormSelect {
   label?: string;
-  name?: string;
+  name: string;
   placeholder?: string;
   isRequired?: boolean;
   options: FormSelectOptions[];
 }
 export interface FormSelect_Plain {
   label?: string;
-  name?: string;
+  name: string;
   placeholder?: string;
   isRequired?: boolean;
   options: FormSelectOptions_Plain[];
@@ -21,7 +21,7 @@ export interface FormSelect_Plain {
 
 export interface FormSelect_NoRelations {
   label?: string;
-  name?: string;
+  name: string;
   placeholder?: string;
   isRequired?: boolean;
   options: FormSelectOptions_NoRelations[];

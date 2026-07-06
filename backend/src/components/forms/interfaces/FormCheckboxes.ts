@@ -10,20 +10,20 @@ export enum Type {
 
 export interface FormCheckboxes {
   label?: string;
-  name?: string;
+  name: string;
   type?: Type;
   items: FormCheckboxesList[];
 }
 export interface FormCheckboxes_Plain {
   label?: string;
-  name?: string;
+  name: string;
   type?: Type;
   items: FormCheckboxesList_Plain[];
 }
 
 export interface FormCheckboxes_NoRelations {
   label?: string;
-  name?: string;
+  name: string;
   type?: Type;
   items: FormCheckboxesList_NoRelations[];
 }

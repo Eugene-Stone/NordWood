@@ -2,20 +2,20 @@
 
 export interface FormTextarea {
   label?: string;
-  name?: string;
+  name: string;
   placeholder?: string;
   isRequired?: boolean;
 }
 export interface FormTextarea_Plain {
   label?: string;
-  name?: string;
+  name: string;
   placeholder?: string;
   isRequired?: boolean;
 }
 
 export interface FormTextarea_NoRelations {
   label?: string;
-  name?: string;
+  name: string;
   placeholder?: string;
   isRequired?: boolean;
 }

@@ -6,14 +6,14 @@ export enum Type {
 
 export interface FormInput {
   label?: string;
-  name?: string;
+  name: string;
   placeholder?: string;
   type?: Type;
   isRequired?: boolean;
 }
 export interface FormInput_Plain {
   label?: string;
-  name?: string;
+  name: string;
   placeholder?: string;
   type?: Type;
   isRequired?: boolean;
@@ -21,7 +21,7 @@ export interface FormInput_Plain {
 
 export interface FormInput_NoRelations {
   label?: string;
-  name?: string;
+  name: string;
   placeholder?: string;
   type?: Type;
   isRequired?: boolean;

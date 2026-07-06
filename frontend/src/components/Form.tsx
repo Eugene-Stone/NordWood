@@ -1,12 +1,16 @@
-import {
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+import type {
 	form as FormType,
 	FormInput,
 	FormCheckboxes,
-	FormRadio,
 	FormSelect,
 	FormSubmit,
 	FormTextarea,
+	FormAgree,
 } from '@backend-types/types';
+import request from '../api/request';
 
 type Props = {
 	data: FormType.Form_Plain;
@@ -19,15 +23,57 @@ type WithComponent<T, C extends string> = T & {
 type FormField =
 	| WithComponent<FormInput.FormInput_Plain, 'forms.form-input'>
 	| WithComponent<FormCheckboxes.FormCheckboxes_Plain, 'forms.form-checkboxes'>
-	| WithComponent<FormRadio.FormRadio_Plain, 'forms.form-radio'>
 	| WithComponent<FormSelect.FormSelect_Plain, 'forms.form-select'>
 	| WithComponent<FormTextarea.FormTextarea_Plain, 'forms.form-textarea'>
-	| WithComponent<FormSubmit.FormSubmit_Plain, 'forms.form-submit'>;
+	| WithComponent<FormSubmit.FormSubmit_Plain, 'forms.form-submit'>
+	| WithComponent<FormAgree.FormAgree_Plain, 'forms.form-agree'>;
+
+type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+type FormValues = Record<string, string | string[] | boolean>;
 
 export default function Form({ data }: Props) {
 	const { title, description, submitUrl, successMessage, errorMessage, fields } = data;
+	const [status, setStatus] = useState<FormStatus>('idle');
 
-	console.log(fields);
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors, isValid },
+	} = useForm<FormValues>({
+		mode: 'onChange',
+	});
+
+	async function sendForm(data: FormValues) {
+		setStatus('loading');
+
+		try {
+			await request<FormValues>(submitUrl, {
+				method: 'POST',
+				body: JSON.stringify({
+					data: {
+						formTitle: '123',
+						formData: data,
+					},
+				}),
+			});
+
+			setStatus('success');
+			reset();
+
+			setTimeout(() => {
+				setStatus('idle');
+			}, 2000);
+		} catch (error) {
+			setStatus('error');
+			console.log('error form');
+		}
+	}
+
+	function onSubmit(data: FormValues) {
+		sendForm(data);
+		console.log(data);
+	}
 
 	return (
 		<div className="form-box color-light">
@@ -37,7 +83,9 @@ export default function Form({ data }: Props) {
 					{description && <p>{description}</p>}
 					<br />
 					<br />
-					<form action="#" method="post" className="form__request">
+					<form
+						className={status === 'loading' ? 'form__request sending' : 'form__request'}
+						onSubmit={handleSubmit(onSubmit)}>
 						<div className="row">
 							{fields?.map((field: FormField, i: number) => {
 								switch (field.__component) {
@@ -48,11 +96,21 @@ export default function Form({ data }: Props) {
 													<label>{field.label}</label>
 													<br />
 													<input
+														{...register(field.name, {
+															required: field.isRequired
+																? 'This field is required'
+																: false,
+														})}
 														type={field.type}
-														name={field.name}
 														placeholder={field.placeholder}
-														required={field.isRequired}
 													/>
+
+													{errors[field.name] && (
+														<span className="error-field">
+															{errors[field.name]?.message ||
+																`${field.name} field error message.`}
+														</span>
+													)}
 												</p>
 											</div>
 										);
@@ -64,11 +122,20 @@ export default function Form({ data }: Props) {
 													<label>{field.label}</label>
 													<br />
 													<textarea
-														name={field.name}
+														{...register(field.name, {
+															required: field.isRequired
+																? 'This field is required'
+																: false,
+														})}
 														placeholder={field.placeholder}
 														rows={6}
-														required={field.isRequired}
 													/>
+													{errors[field.name] && (
+														<span className="error-field">
+															{errors[field.name]?.message ||
+																`${field.name} field error message.`}
+														</span>
+													)}
 												</p>
 											</div>
 										);
@@ -79,7 +146,12 @@ export default function Form({ data }: Props) {
 												<p>
 													<label>{field.label}</label>
 													<br />
-													<select name="product">
+													<select
+														{...register(field.name, {
+															required: field.isRequired
+																? 'This field is required'
+																: false,
+														})}>
 														{field.options.map((option, i) => {
 															return (
 																<option
@@ -90,9 +162,16 @@ export default function Form({ data }: Props) {
 															);
 														})}
 													</select>
+													{errors[field.name] && (
+														<span className="error-field">
+															{errors[field.name]?.message ||
+																`${field.name} field error message.`}
+														</span>
+													)}
 												</p>
 											</div>
 										);
+
 									case 'forms.form-checkboxes':
 										return (
 											<div key={i} className="col-md-12">
@@ -103,10 +182,14 @@ export default function Form({ data }: Props) {
 														return (
 															<label key={i}>
 																<input
+																	{...register(field.name)}
 																	type={field.type}
-																	name={field.name}
-																	defaultValue={item.value}
-																	checked={item.isChecked}
+																	value={
+																		item.value
+																			? item.value
+																			: field.name
+																	}
+																	defaultChecked={item.isChecked}
 																/>
 																{item.title}
 															</label>
@@ -115,11 +198,30 @@ export default function Form({ data }: Props) {
 												</p>
 											</div>
 										);
+
+									case 'forms.form-agree':
+										return (
+											<div key={i} className="col-md-12">
+												<p>
+													<label>
+														<input
+															{...register(field.name, {
+																required: 'This field is required',
+															})}
+															type="checkbox"
+														/>
+														{field.label}
+													</label>
+												</p>
+											</div>
+										);
 									case 'forms.form-submit':
 										return (
 											<div key={i} className="col-md-12">
 												<div className="btn-more-wrap">
-													<button type="submit" className="btn">
+													<button
+														type="submit"
+														className={`btn ${isValid ? '' : 'disabled'}`}>
 														<span>{field.label}</span>
 													</button>
 												</div>
@@ -128,6 +230,11 @@ export default function Form({ data }: Props) {
 								}
 							})}
 						</div>
+
+						{status === 'success' && (
+							<p className="success-field">Форма успешно отправлена</p>
+						)}
+						{status === 'error' && <p className="error-field">Форма не отправлена</p>}
 					</form>
 				</div>
 			</div>

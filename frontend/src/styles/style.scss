@@ -3136,6 +3136,19 @@ li:has(>a.active) {
 	}
 }
 
+.error-field {
+	color: rgb(235, 61, 61);
+}
+
+.success-field {
+	color: rgb(1, 179, 1);
+}
+
+.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
 .cust-inp,
 .cust-textarea {
 	display: block;

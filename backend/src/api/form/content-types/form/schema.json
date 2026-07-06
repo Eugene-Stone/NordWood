@@ -33,7 +33,8 @@
         "forms.form-select",
         "forms.form-input",
         "forms.form-checkboxes",
-        "forms.form-textarea"
+        "forms.form-textarea",
+        "forms.form-agree"
       ]
     }
   }

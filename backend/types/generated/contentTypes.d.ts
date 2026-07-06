@@ -441,6 +441,35 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiFormRequestFormRequest extends Struct.CollectionTypeSchema {
+  collectionName: 'form_requests';
+  info: {
+    displayName: 'Form requests';
+    pluralName: 'form-requests';
+    singularName: 'form-request';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    formData: Schema.Attribute.JSON;
+    formTitle: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::form-request.form-request'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiFormForm extends Struct.CollectionTypeSchema {
   collectionName: 'forms';
   info: {
@@ -464,6 +493,7 @@ export interface ApiFormForm extends Struct.CollectionTypeSchema {
         'forms.form-input',
         'forms.form-checkboxes',
         'forms.form-textarea',
+        'forms.form-agree',
       ]
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1310,6 +1340,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::form-request.form-request': ApiFormRequestFormRequest;
       'api::form.form': ApiFormForm;
       'api::gallery.gallery': ApiGalleryGallery;
       'api::global.global': ApiGlobalGlobal;

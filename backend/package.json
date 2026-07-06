@@ -14,6 +14,9 @@
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
+  "overrides": {
+	"@codemirror/state": "6.4.1"
+  },
   "dependencies": {
     "@_sh/strapi-plugin-ckeditor": "^7.1.1",
     "@strapi/plugin-cloud": "5.50.0",

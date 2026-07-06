@@ -1,5 +1,16 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface FormsFormAgree extends Struct.ComponentSchema {
+  collectionName: 'components_forms_form_agrees';
+  info: {
+    displayName: 'FormAgree';
+  };
+  attributes: {
+    label: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface FormsFormCheckboxes extends Struct.ComponentSchema {
   collectionName: 'components_forms_form_checkboxes';
   info: {
@@ -8,7 +19,7 @@ export interface FormsFormCheckboxes extends Struct.ComponentSchema {
   attributes: {
     items: Schema.Attribute.Component<'forms.form-checkboxes-list', true>;
     label: Schema.Attribute.String;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     type: Schema.Attribute.Enumeration<['checkbox', 'radio']> &
       Schema.Attribute.DefaultTo<'checkbox'>;
   };
@@ -34,7 +45,7 @@ export interface FormsFormInput extends Struct.ComponentSchema {
   attributes: {
     isRequired: Schema.Attribute.Boolean;
     label: Schema.Attribute.String;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     placeholder: Schema.Attribute.String;
     type: Schema.Attribute.Enumeration<['text', 'email']>;
   };
@@ -48,7 +59,7 @@ export interface FormsFormSelect extends Struct.ComponentSchema {
   attributes: {
     isRequired: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     label: Schema.Attribute.String;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     options: Schema.Attribute.Component<'forms.form-select-options', true>;
     placeholder: Schema.Attribute.String;
   };
@@ -83,7 +94,7 @@ export interface FormsFormTextarea extends Struct.ComponentSchema {
   attributes: {
     isRequired: Schema.Attribute.Boolean;
     label: Schema.Attribute.String;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     placeholder: Schema.Attribute.String;
   };
 }
@@ -323,6 +334,7 @@ export interface SharedLink extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'forms.form-agree': FormsFormAgree;
       'forms.form-checkboxes': FormsFormCheckboxes;
       'forms.form-checkboxes-list': FormsFormCheckboxesList;
       'forms.form-input': FormsFormInput;

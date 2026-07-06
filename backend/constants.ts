@@ -6,6 +6,15 @@ export const SITE = {
 	url: FRONTEND_URL,
 };
 
+export const PAGE_SEO = {
+	// populate: '*',
+	populate: {
+		ogImage: {
+			populate: '*',
+		},
+	},
+} as const;
+
 export const GLOBAL_POPULATE = {
 	Header: {
 		populate: {
@@ -97,6 +106,9 @@ export const SECTIONS_POPULATE = {
 								'forms.form-textarea': {
 									populate: '*',
 								},
+								'forms.form-agree': {
+									populate: '*',
+								},
 							},
 						},
 					},
@@ -109,15 +121,6 @@ export const SECTIONS_POPULATE = {
 			},
 		},
 		'sections.text-section': {
-			populate: '*',
-		},
-	},
-} as const;
-
-export const PAGE_SEO = {
-	// populate: '*',
-	populate: {
-		ogImage: {
 			populate: '*',
 		},
 	},
