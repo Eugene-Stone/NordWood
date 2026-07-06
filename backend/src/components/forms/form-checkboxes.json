@@ -4,6 +4,26 @@
     "displayName": "FormCheckboxes"
   },
   "options": {},
-  "attributes": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "type": "enumeration",
+      "default": "checkbox",
+      "enum": [
+        "checkbox",
+        "radio"
+      ]
+    },
+    "items": {
+      "type": "component",
+      "component": "forms.form-checkboxes-list",
+      "repeatable": true
+    }
+  },
   "config": {}
 }

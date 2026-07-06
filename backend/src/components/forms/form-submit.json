@@ -4,6 +4,10 @@
     "displayName": "FormSubmit"
   },
   "options": {},
-  "attributes": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    }
+  },
   "config": {}
 }

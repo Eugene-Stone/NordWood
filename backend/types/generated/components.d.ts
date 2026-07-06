@@ -5,7 +5,25 @@ export interface FormsFormCheckboxes extends Struct.ComponentSchema {
   info: {
     displayName: 'FormCheckboxes';
   };
-  attributes: {};
+  attributes: {
+    items: Schema.Attribute.Component<'forms.form-checkboxes-list', true>;
+    label: Schema.Attribute.String;
+    name: Schema.Attribute.String;
+    type: Schema.Attribute.Enumeration<['checkbox', 'radio']> &
+      Schema.Attribute.DefaultTo<'checkbox'>;
+  };
+}
+
+export interface FormsFormCheckboxesList extends Struct.ComponentSchema {
+  collectionName: 'components_forms_form_checkboxes_lists';
+  info: {
+    displayName: 'FormCheckboxesList';
+  };
+  attributes: {
+    isChecked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    title: Schema.Attribute.String;
+    value: Schema.Attribute.String;
+  };
 }
 
 export interface FormsFormInput extends Struct.ComponentSchema {
@@ -20,14 +38,6 @@ export interface FormsFormInput extends Struct.ComponentSchema {
     placeholder: Schema.Attribute.String;
     type: Schema.Attribute.Enumeration<['text', 'email']>;
   };
-}
-
-export interface FormsFormRadio extends Struct.ComponentSchema {
-  collectionName: 'components_forms_form_radios';
-  info: {
-    displayName: 'FormRadio';
-  };
-  attributes: {};
 }
 
 export interface FormsFormSelect extends Struct.ComponentSchema {
@@ -60,7 +70,22 @@ export interface FormsFormSubmit extends Struct.ComponentSchema {
   info: {
     displayName: 'FormSubmit';
   };
-  attributes: {};
+  attributes: {
+    label: Schema.Attribute.String;
+  };
+}
+
+export interface FormsFormTextarea extends Struct.ComponentSchema {
+  collectionName: 'components_forms_form_textareas';
+  info: {
+    displayName: 'FormTextarea';
+  };
+  attributes: {
+    isRequired: Schema.Attribute.Boolean;
+    label: Schema.Attribute.String;
+    name: Schema.Attribute.String;
+    placeholder: Schema.Attribute.String;
+  };
 }
 
 export interface LayoutFooter extends Struct.ComponentSchema {
@@ -299,11 +324,12 @@ declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'forms.form-checkboxes': FormsFormCheckboxes;
+      'forms.form-checkboxes-list': FormsFormCheckboxesList;
       'forms.form-input': FormsFormInput;
-      'forms.form-radio': FormsFormRadio;
       'forms.form-select': FormsFormSelect;
       'forms.form-select-options': FormsFormSelectOptions;
       'forms.form-submit': FormsFormSubmit;
+      'forms.form-textarea': FormsFormTextarea;
       'layout.footer': LayoutFooter;
       'layout.header': LayoutHeader;
       'layout.menu-footer': LayoutMenuFooter;

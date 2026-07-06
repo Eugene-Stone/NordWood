@@ -1,6 +1,11 @@
 export const FRONTEND_URL = 'http://localhost:5173/NordWood/';
 // export const FRONTEND_URL = 'https://eugene-stone.github.io/NordWood/';
 
+export const SITE = {
+	name: 'NordWood site',
+	url: FRONTEND_URL,
+};
+
 export const GLOBAL_POPULATE = {
 	Header: {
 		populate: {
@@ -77,19 +82,19 @@ export const SECTIONS_POPULATE = {
 						fields: {
 							on: {
 								// 4. И только тут перечисляем компоненты инпутов из категории "form"
+								'forms.form-checkboxes': {
+									populate: '*',
+								},
 								'forms.form-input': {
 									populate: '*',
 								},
 								'forms.form-select': {
 									populate: '*',
 								},
-								'forms.form-checkboxes': {
-									populate: '*',
-								},
-								'forms.form-radio': {
-									populate: '*',
-								},
 								'forms.form-submit': {
+									populate: '*',
+								},
+								'forms.form-textarea': {
 									populate: '*',
 								},
 							},

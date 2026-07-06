@@ -249,6 +249,7 @@ export interface AdminSession extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'admin::session'> &
       Schema.Attribute.Private;
+    metadata: Schema.Attribute.JSON & Schema.Attribute.Private;
     origin: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Private;
@@ -460,9 +461,9 @@ export interface ApiFormForm extends Struct.CollectionTypeSchema {
       [
         'forms.form-submit',
         'forms.form-select',
-        'forms.form-radio',
         'forms.form-input',
         'forms.form-checkboxes',
+        'forms.form-textarea',
       ]
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;

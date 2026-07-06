@@ -31,9 +31,9 @@
       "components": [
         "forms.form-submit",
         "forms.form-select",
-        "forms.form-radio",
         "forms.form-input",
-        "forms.form-checkboxes"
+        "forms.form-checkboxes",
+        "forms.form-textarea"
       ]
     }
   }

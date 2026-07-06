@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2026-07-05T11:36:40.520Z"
+    "x-generation-date": "2026-07-06T11:14:45.064Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -5670,13 +5670,13 @@
                       "$ref": "#/components/schemas/FormsFormSelectComponent"
                     },
                     {
-                      "$ref": "#/components/schemas/FormsFormRadioComponent"
-                    },
-                    {
                       "$ref": "#/components/schemas/FormsFormInputComponent"
                     },
                     {
                       "$ref": "#/components/schemas/FormsFormCheckboxesComponent"
+                    },
+                    {
+                      "$ref": "#/components/schemas/FormsFormTextareaComponent"
                     }
                   ]
                 },
@@ -5685,9 +5685,9 @@
                   "mapping": {
                     "forms.form-submit": "#/components/schemas/FormsFormSubmitComponent",
                     "forms.form-select": "#/components/schemas/FormsFormSelectComponent",
-                    "forms.form-radio": "#/components/schemas/FormsFormRadioComponent",
                     "forms.form-input": "#/components/schemas/FormsFormInputComponent",
-                    "forms.form-checkboxes": "#/components/schemas/FormsFormCheckboxesComponent"
+                    "forms.form-checkboxes": "#/components/schemas/FormsFormCheckboxesComponent",
+                    "forms.form-textarea": "#/components/schemas/FormsFormTextareaComponent"
                   }
                 }
               },
@@ -5789,13 +5789,13 @@
                   "$ref": "#/components/schemas/FormsFormSelectComponent"
                 },
                 {
-                  "$ref": "#/components/schemas/FormsFormRadioComponent"
-                },
-                {
                   "$ref": "#/components/schemas/FormsFormInputComponent"
                 },
                 {
                   "$ref": "#/components/schemas/FormsFormCheckboxesComponent"
+                },
+                {
+                  "$ref": "#/components/schemas/FormsFormTextareaComponent"
                 }
               ]
             },
@@ -5804,9 +5804,9 @@
               "mapping": {
                 "forms.form-submit": "#/components/schemas/FormsFormSubmitComponent",
                 "forms.form-select": "#/components/schemas/FormsFormSelectComponent",
-                "forms.form-radio": "#/components/schemas/FormsFormRadioComponent",
                 "forms.form-input": "#/components/schemas/FormsFormInputComponent",
-                "forms.form-checkboxes": "#/components/schemas/FormsFormCheckboxesComponent"
+                "forms.form-checkboxes": "#/components/schemas/FormsFormCheckboxesComponent",
+                "forms.form-textarea": "#/components/schemas/FormsFormTextareaComponent"
               }
             }
           },
@@ -6552,13 +6552,13 @@
                         "$ref": "#/components/schemas/FormsFormSelectComponent"
                       },
                       {
-                        "$ref": "#/components/schemas/FormsFormRadioComponent"
-                      },
-                      {
                         "$ref": "#/components/schemas/FormsFormInputComponent"
                       },
                       {
                         "$ref": "#/components/schemas/FormsFormCheckboxesComponent"
+                      },
+                      {
+                        "$ref": "#/components/schemas/FormsFormTextareaComponent"
                       }
                     ]
                   },
@@ -6567,9 +6567,9 @@
                     "mapping": {
                       "forms.form-submit": "#/components/schemas/FormsFormSubmitComponent",
                       "forms.form-select": "#/components/schemas/FormsFormSelectComponent",
-                      "forms.form-radio": "#/components/schemas/FormsFormRadioComponent",
                       "forms.form-input": "#/components/schemas/FormsFormInputComponent",
-                      "forms.form-checkboxes": "#/components/schemas/FormsFormCheckboxesComponent"
+                      "forms.form-checkboxes": "#/components/schemas/FormsFormCheckboxesComponent",
+                      "forms.form-textarea": "#/components/schemas/FormsFormTextareaComponent"
                     }
                   }
                 },
@@ -6679,6 +6679,9 @@
             "enum": [
               "forms.form-submit"
             ]
+          },
+          "label": {
+            "type": "string"
           }
         }
       },
@@ -6742,27 +6745,6 @@
           }
         }
       },
-      "FormsFormRadioComponent": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "number"
-              }
-            ]
-          },
-          "__component": {
-            "type": "string",
-            "enum": [
-              "forms.form-radio"
-            ]
-          }
-        }
-      },
       "FormsFormInputComponent": {
         "type": "object",
         "properties": {
@@ -6803,6 +6785,30 @@
           }
         }
       },
+      "FormsFormCheckboxesListComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "isChecked": {
+            "type": "boolean"
+          }
+        }
+      },
       "FormsFormCheckboxesComponent": {
         "type": "object",
         "properties": {
@@ -6821,6 +6827,58 @@
             "enum": [
               "forms.form-checkboxes"
             ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "checkbox",
+              "radio"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FormsFormCheckboxesListComponent"
+            }
+          }
+        }
+      },
+      "FormsFormTextareaComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "__component": {
+            "type": "string",
+            "enum": [
+              "forms.form-textarea"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "placeholder": {
+            "type": "string"
+          },
+          "isRequired": {
+            "type": "boolean"
           }
         }
       },

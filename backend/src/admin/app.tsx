@@ -1,9 +1,5 @@
 import type { StrapiApp } from '@strapi/strapi/admin';
-
-const SITE = {
-	name: 'NordWood site',
-	url: 'http://localhost:5173/',
-};
+import { SITE } from '../../CONSTANTS';
 
 export default {
 	config: {
