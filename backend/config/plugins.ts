@@ -6,6 +6,7 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
 	'strapi-dz-component-duplicator': {
 		enabled: true,
 	},
+
 	'preview-button': {
 		config: {
 			enabled: true,
@@ -44,6 +45,28 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
 				// 	},
 				// },
 			],
+		},
+	},
+
+	email: {
+		config: {
+			provider: '@strapi/provider-email-nodemailer',
+			providerOptions: {
+				host: env('SMTP_HOST'),
+				port: env.int('SMTP_PORT'),
+				// Включаем пул соединений и жестко ограничиваем его до 1
+				pool: true,
+				maxConnections: 1,
+				maxMessages: 1,
+				auth: {
+					user: env('SMTP_USERNAME'),
+					pass: env('SMTP_PASSWORD'),
+				},
+			},
+			settings: {
+				defaultFrom: env('SMTP_FROM'),
+				defaultReplyTo: env('SMTP_FROM'),
+			},
 		},
 	},
 });

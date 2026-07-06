@@ -44,7 +44,7 @@ export default function Form({ data }: Props) {
 		mode: 'onChange',
 	});
 
-	async function sendForm(data: FormValues) {
+	async function sendForm(values: FormValues) {
 		setStatus('loading');
 
 		try {
@@ -52,8 +52,8 @@ export default function Form({ data }: Props) {
 				method: 'POST',
 				body: JSON.stringify({
 					data: {
-						formTitle: '123',
-						formData: data,
+						formTitle: title,
+						formData: values,
 					},
 				}),
 			});
@@ -66,13 +66,11 @@ export default function Form({ data }: Props) {
 			}, 2000);
 		} catch (error) {
 			setStatus('error');
-			console.log('error form');
 		}
 	}
 
 	function onSubmit(data: FormValues) {
 		sendForm(data);
-		console.log(data);
 	}
 
 	return (
@@ -221,7 +219,7 @@ export default function Form({ data }: Props) {
 												<div className="btn-more-wrap">
 													<button
 														type="submit"
-														className={`btn ${isValid ? '' : 'disabled'}`}>
+														className={`btn ${isValid ? '' : 'disabled'} ${status === 'loading' ? 'disabled' : ''}`}>
 														<span>{field.label}</span>
 													</button>
 												</div>
@@ -231,10 +229,8 @@ export default function Form({ data }: Props) {
 							})}
 						</div>
 
-						{status === 'success' && (
-							<p className="success-field">Форма успешно отправлена</p>
-						)}
-						{status === 'error' && <p className="error-field">Форма не отправлена</p>}
+						{status === 'success' && <p className="success-field">{successMessage}</p>}
+						{status === 'error' && <p className="error-field">{errorMessage}</p>}
 					</form>
 				</div>
 			</div>

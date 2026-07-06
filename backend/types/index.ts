@@ -1,4 +1,5 @@
 export * as form from '../src/api/form/content-types/form/form';
+export * as form_request from '../src/api/form-request/content-types/form-request/form-request';
 export * as gallery from '../src/api/gallery/content-types/gallery/gallery';
 export * as global from '../src/api/global/content-types/global/global';
 export * as homepage from '../src/api/homepage/content-types/homepage/homepage';

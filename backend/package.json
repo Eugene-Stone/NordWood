@@ -15,13 +15,14 @@
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "overrides": {
-	"@codemirror/state": "6.4.1"
+    "@codemirror/state": "6.4.1"
   },
   "dependencies": {
     "@_sh/strapi-plugin-ckeditor": "^7.1.1",
     "@strapi/plugin-cloud": "5.50.0",
     "@strapi/plugin-documentation": "^5.50.0",
     "@strapi/plugin-users-permissions": "5.50.0",
+    "@strapi/provider-email-nodemailer": "^5.50.0",
     "@strapi/strapi": "5.50.0",
     "better-sqlite3": "12.8.0",
     "react": "^18.0.0",
