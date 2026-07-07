@@ -7,9 +7,11 @@ import Home from './pages/Home';
 import Page from './pages/Page';
 import NotFoundPage from './pages/NotFoundPage';
 
-import useGlobalDataContext from './context/useGlobalDataContext';
+import useGlobalDataContext from './context/GlobalDataContext/useGlobalDataContext.ts';
 import ReloadToTop from './utils/ReloadToTop';
 import ButtonScrollTop from './components/ButtonScrollTop';
+import SignUp from './pages/_auth/SignUp';
+import SignIn from './pages/_auth/SignIn';
 
 function Layout() {
 	return (
@@ -38,6 +40,8 @@ const router = createBrowserRouter(
 				{ index: true, element: <Home /> },
 				{ path: '404', element: <NotFoundPage /> },
 				{ path: '/:slug', element: <Page /> },
+				{ path: '/login', element: <SignIn /> },
+				{ path: '/registration', element: <SignUp /> },
 				{ path: '*', element: <NotFoundPage /> },
 			],
 		},

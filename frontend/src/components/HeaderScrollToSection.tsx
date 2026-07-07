@@ -8,6 +8,7 @@ type Props = {
 	children: ReactNode;
 	activeSection: string;
 	setActiveSection: Dispatch<SetStateAction<string>>;
+	setMenuOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function HeaderScrollToSection({
@@ -15,6 +16,7 @@ export default function HeaderScrollToSection({
 	activeSection,
 	setActiveSection,
 	children,
+	setMenuOpen,
 }: Props) {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -51,7 +53,8 @@ export default function HeaderScrollToSection({
 					onSetActive={handleSetActive}
 					smooth={true}
 					offset={-70}
-					duration={900}>
+					duration={900}
+					onClick={() => setMenuOpen(false)}>
 					{children}
 				</Link>
 			</li>
@@ -59,7 +62,9 @@ export default function HeaderScrollToSection({
 	} else {
 		return (
 			<li>
-				<button onClick={() => scrollToSection(url)}>{children}</button>
+				<button onClick={() => (setMenuOpen(false), scrollToSection(url))}>
+					{children}
+				</button>
 			</li>
 		);
 	}

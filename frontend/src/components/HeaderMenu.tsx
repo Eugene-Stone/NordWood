@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import HeaderScrollToSection from './HeaderScrollToSection';
 
 import type { MenuMain } from '@backend-types/types';
 
 type Props = {
+	className: string;
+	setMenuOpen: Dispatch<SetStateAction<boolean>>;
 	links: MenuMain.MenuMain_Plain;
 };
 
-export default function HeaderMenu({ links }: Props) {
+export default function HeaderMenu({ className, setMenuOpen, links }: Props) {
 	const location = useLocation();
 
 	const [activeSection, setActiveSection] = useState('');
@@ -25,7 +27,8 @@ export default function HeaderMenu({ links }: Props) {
 					key={i}
 					url={url}
 					activeSection={activeSection}
-					setActiveSection={setActiveSection}>
+					setActiveSection={setActiveSection}
+					setMenuOpen={setMenuOpen}>
 					{text}
 				</HeaderScrollToSection>
 			);
@@ -41,7 +44,7 @@ export default function HeaderMenu({ links }: Props) {
 	});
 
 	return (
-		<nav className="mnu-wrap">
+		<nav className={`mnu-wrap ${className}`}>
 			<div className="menu-header-menu-container">
 				{menuHeader && <ul className="main-mnu">{menuHeader}</ul>}
 			</div>

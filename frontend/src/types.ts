@@ -1,73 +1,36 @@
-export type ImageFormat = {
-	name: string;
-	width: number;
-	height: number;
-	url: string;
-	path: string | null;
-};
+export interface RegisterRequest {
+	username: string;
+	email: string;
+	password: string;
+}
 
-export type ImageFormats = {
-	thumbnail?: ImageFormat;
-	small?: ImageFormat;
-	medium?: ImageFormat;
-	large?: ImageFormat;
-};
-
-export type Image = {
+export interface AuthUser {
 	id: number;
-	alternativeText: string | null;
-	url: string | null;
-	height: number;
-	width: number;
-	formats: ImageFormats;
-};
+	username: string;
+	email: string;
+}
 
-export type Link = {
+export interface AuthUser {
 	id: number;
-	text: string;
-	url: string;
-	isExternal: boolean;
-	isButton: boolean;
-	isLogo: boolean;
-	buttonType: 'PRIMARY' | 'SECONDARY';
-	image: Image | null;
-};
+	username: string;
+	email: string;
+}
+export interface LoginRequest {
+	identifier: string;
+	password: string;
+}
 
-export type Logo = {
-	id: number;
-	image: Image;
-};
+export interface AuthResponse {
+	jwt: string;
+	user: AuthUser;
+}
 
-export type Menu = {
-	id: number;
-	MenuLink: Link[];
-};
+export interface AuthContextType {
+	user: AuthUser | null;
+	jwt: string | null;
+	isAuthenticated: boolean;
+	loading: boolean;
 
-export type LangList = {
-	id: number;
-	Link: Link[];
-};
-
-export type Header = {
-	LangList: LangList;
-	Logo: Logo;
-	Menu: Menu;
-};
-export type Footer = {
-	id: number;
-	textTop: string | null;
-	textBottom: string | null;
-	copyright: string | null;
-	Menu: {
-		id: number;
-		MenuLink: Link[];
-	};
-};
-
-export type GlobalData = {
-	id: string;
-	title: string | null;
-	description: string | null;
-	Header: Header;
-	Footer: Footer;
-};
+	login: (jwt: string, user: AuthUser) => void;
+	logout: () => void;
+}

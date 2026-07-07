@@ -1,5 +1,5 @@
 import ReactMarkdown from 'react-markdown';
-import useGlobalDataContext from '../context/useGlobalDataContext';
+import useGlobalDataContext from '../context/GlobalDataContext/useGlobalDataContext';
 import { BACKEND_URL } from '../../CONSTANTS';
 
 export default function Footer() {

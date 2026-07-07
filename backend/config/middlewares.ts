@@ -11,6 +11,7 @@ const config: Core.Config.Middlewares = [
 	'strapi::session',
 	'strapi::favicon',
 	'strapi::public',
+	// код для корректной работы strapi-location-picker
 	{
 		name: 'strapi::security',
 		config: {

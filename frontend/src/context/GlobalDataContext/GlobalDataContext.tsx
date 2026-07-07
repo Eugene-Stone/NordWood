@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import useGlobalData from '../hooks/useGlobalData';
+import useGlobalData from '../../hooks/useGlobalData';
 import type { global } from '@backend-types/types';
 
 type GlobalDataContextType = {
