@@ -30,7 +30,12 @@ export default function Hero({ data }: Props) {
 							{image && (
 								<div className="top-screen-image-box">
 									<div className="top-screen-image">
-										<img src={BACKEND_URL + image.url} alt="NordWood" />
+										<img
+											src={BACKEND_URL + image.url}
+											alt="NordWood"
+											// loading="lazy"
+											fetchPriority="high"
+										/>
 									</div>
 								</div>
 							)}

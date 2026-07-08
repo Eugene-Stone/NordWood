@@ -27,7 +27,8 @@
         "sections.map",
         "sections.about",
         "sections.opening-hours",
-        "sections.gallery"
+        "sections.gallery",
+        "sections.reviews"
       ]
     },
     "seo": {

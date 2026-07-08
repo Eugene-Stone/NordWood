@@ -28,7 +28,10 @@ export default function HeaderScrollToSection({
 	// console.log(activeSection);
 
 	const scrollToSection = (to: string) => {
-		navigate('/');
+		// navigate('/');
+		navigate('/', {
+			viewTransition: true,
+		});
 
 		setTimeout(() => {
 			scroller.scrollTo(to.replace('#', ''), {
@@ -44,7 +47,7 @@ export default function HeaderScrollToSection({
 
 	if (location.pathname === '/') {
 		return (
-			<li className={activeSection === url.replace('#', '') ? 'active' : ''}>
+			<li className={activeSection === url.replace('#', '') ? 'activeLi' : ''}>
 				<Link
 					className="menu__link"
 					to={url.replace('#', '')}

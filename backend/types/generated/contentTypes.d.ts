@@ -602,6 +602,7 @@ export interface ApiHomepageHomepage extends Struct.SingleTypeSchema {
         'sections.about',
         'sections.opening-hours',
         'sections.gallery',
+        'sections.reviews',
       ]
     >;
     seo: Schema.Attribute.Component<'layout.seo', false>;

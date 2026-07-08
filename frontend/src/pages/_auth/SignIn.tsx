@@ -25,7 +25,10 @@ export default function SignIn() {
 
 	useEffect(() => {
 		if (isAuthenticated) {
-			navigate('/');
+			// navigate('/');
+			navigate('/profile', {
+				viewTransition: true,
+			});
 		}
 	}, [navigate, isAuthenticated]);
 
@@ -43,7 +46,10 @@ export default function SignIn() {
 
 			setTimeout(() => {
 				setStatus('idle');
-				navigate('/');
+				// navigate('/');
+				navigate('/profile', {
+					viewTransition: true,
+				});
 			}, 500);
 		} catch (error) {
 			if (error instanceof Error) {
@@ -109,7 +115,7 @@ export default function SignIn() {
 					)}
 				</form>
 				<div className="nw-auth-links">
-					<Link to={'/forgot-pass'} className="nw-auth-link">
+					<Link to={'/forgot-password'} className="nw-auth-link">
 						Забыли пароль?
 					</Link>
 					<Link to={'/registration'} className="nw-auth-link">

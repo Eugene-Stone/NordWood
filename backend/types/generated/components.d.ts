@@ -262,6 +262,17 @@ export interface SectionsRequest extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsReviews extends Struct.ComponentSchema {
+  collectionName: 'components_sections_reviews';
+  info: {
+    displayName: 'Reviews';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface SectionsServices extends Struct.ComponentSchema {
   collectionName: 'components_sections_services';
   info: {
@@ -353,6 +364,7 @@ declare module '@strapi/strapi' {
       'sections.map': SectionsMap;
       'sections.opening-hours': SectionsOpeningHours;
       'sections.request': SectionsRequest;
+      'sections.reviews': SectionsReviews;
       'sections.services': SectionsServices;
       'sections.text-section': SectionsTextSection;
       'shared.button': SharedButton;

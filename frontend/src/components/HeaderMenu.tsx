@@ -34,8 +34,8 @@ export default function HeaderMenu({ className, setMenuOpen, links }: Props) {
 			);
 		} else {
 			return (
-				<li className={isActive ? 'active' : ''} key={i}>
-					<NavLink to={url} target={target}>
+				<li className={isActive ? 'activeLi' : ''} key={i}>
+					<NavLink to={url} target={target} viewTransition>
 						{text}
 					</NavLink>
 				</li>

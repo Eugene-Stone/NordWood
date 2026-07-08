@@ -25,7 +25,10 @@ export default function SignUp() {
 
 	useEffect(() => {
 		if (isAuthenticated) {
-			navigate('/');
+			// navigate('/');
+			navigate('/profile', {
+				viewTransition: true,
+			});
 		}
 	}, [navigate, isAuthenticated]);
 
@@ -43,7 +46,10 @@ export default function SignUp() {
 
 			setTimeout(() => {
 				setStatus('idle');
-				navigate('/');
+				// navigate('/');
+				navigate('/', {
+					viewTransition: true,
+				});
 			}, 500);
 		} catch (error) {
 			if (error instanceof Error) {

@@ -6,6 +6,7 @@ import OpeningHours from '../sections/OpeningHours';
 import Request from '../sections/Request';
 import Services from '../sections/Services';
 import TextSection from '../sections/TextSection';
+import Reviews from '../sections/Reviews';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function DynamicSections({ sections }: any) {
@@ -28,6 +29,8 @@ export default function DynamicSections({ sections }: any) {
 						return <Request key={i + section.__component} data={section} />;
 					case 'sections.services':
 						return <Services key={i + section.__component} data={section} />;
+					case 'sections.reviews':
+						return <Reviews key={i + section.__component} data={section} />;
 					case 'sections.text-section':
 						return <TextSection key={i + section.__component} data={section} />;
 				}

@@ -115,6 +115,9 @@ export const SECTIONS_POPULATE = {
 				},
 			},
 		},
+		'sections.reviews': {
+			populate: '*',
+		},
 		'sections.services': {
 			populate: {
 				link: true,

@@ -1,5 +1,12 @@
 import request from './request';
-import type { AuthUser, AuthResponse, RegisterRequest, LoginRequest } from '../types';
+import type {
+	AuthUser,
+	AuthResponse,
+	RegisterRequest,
+	LoginRequest,
+	ForgotPasswordRequest,
+	ResetPasswordRequest,
+} from '../types';
 
 export function loginUser(dataAuth: LoginRequest) {
 	return request<AuthResponse>('/auth/local', {
@@ -20,5 +27,19 @@ export function getMe(jwt: string) {
 		headers: {
 			Authorization: `Bearer ${jwt}`,
 		},
+	});
+}
+
+export function forgotPassword(dataAuth: ForgotPasswordRequest) {
+	return request('/auth/forgot-password', {
+		method: 'POST',
+		body: JSON.stringify(dataAuth),
+	});
+}
+
+export function resetPassword(dataAuth: ResetPasswordRequest) {
+	return request('/auth/reset-password', {
+		method: 'POST',
+		body: JSON.stringify(dataAuth),
 	});
 }

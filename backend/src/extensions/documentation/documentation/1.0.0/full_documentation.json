@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2026-07-07T07:28:58.084Z"
+    "x-generation-date": "2026-07-08T14:40:22.715Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -10447,6 +10447,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/SectionsGalleryComponent"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SectionsReviewsComponent"
                     }
                   ]
                 },
@@ -10460,7 +10463,8 @@
                     "sections.map": "#/components/schemas/SectionsMapComponent",
                     "sections.about": "#/components/schemas/SectionsAboutComponent",
                     "sections.opening-hours": "#/components/schemas/SectionsOpeningHoursComponent",
-                    "sections.gallery": "#/components/schemas/SectionsGalleryComponent"
+                    "sections.gallery": "#/components/schemas/SectionsGalleryComponent",
+                    "sections.reviews": "#/components/schemas/SectionsReviewsComponent"
                   }
                 }
               },
@@ -10572,6 +10576,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/SectionsGalleryComponent"
+                },
+                {
+                  "$ref": "#/components/schemas/SectionsReviewsComponent"
                 }
               ]
             },
@@ -10585,7 +10592,8 @@
                 "sections.map": "#/components/schemas/SectionsMapComponent",
                 "sections.about": "#/components/schemas/SectionsAboutComponent",
                 "sections.opening-hours": "#/components/schemas/SectionsOpeningHoursComponent",
-                "sections.gallery": "#/components/schemas/SectionsGalleryComponent"
+                "sections.gallery": "#/components/schemas/SectionsGalleryComponent",
+                "sections.reviews": "#/components/schemas/SectionsReviewsComponent"
               }
             }
           },
@@ -10694,6 +10702,9 @@
                       },
                       {
                         "$ref": "#/components/schemas/SectionsGalleryComponent"
+                      },
+                      {
+                        "$ref": "#/components/schemas/SectionsReviewsComponent"
                       }
                     ]
                   },
@@ -10707,7 +10718,8 @@
                       "sections.map": "#/components/schemas/SectionsMapComponent",
                       "sections.about": "#/components/schemas/SectionsAboutComponent",
                       "sections.opening-hours": "#/components/schemas/SectionsOpeningHoursComponent",
-                      "sections.gallery": "#/components/schemas/SectionsGalleryComponent"
+                      "sections.gallery": "#/components/schemas/SectionsGalleryComponent",
+                      "sections.reviews": "#/components/schemas/SectionsReviewsComponent"
                     }
                   }
                 },
@@ -11405,6 +11417,33 @@
                 "type": "string"
               }
             }
+          }
+        }
+      },
+      "SectionsReviewsComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "__component": {
+            "type": "string",
+            "enum": [
+              "sections.reviews"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
           }
         }
       },

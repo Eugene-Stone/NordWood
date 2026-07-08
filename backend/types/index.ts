@@ -35,6 +35,7 @@ export * as Hero from '../src/components/sections/interfaces/Hero';
 export * as Map from '../src/components/sections/interfaces/Map';
 export * as OpeningHours from '../src/components/sections/interfaces/OpeningHours';
 export * as Request from '../src/components/sections/interfaces/Request';
+export * as Reviews from '../src/components/sections/interfaces/Reviews';
 export * as Services from '../src/components/sections/interfaces/Services';
 export * as TextSection from '../src/components/sections/interfaces/TextSection';
 export * as Button from '../src/components/shared/interfaces/Button';
