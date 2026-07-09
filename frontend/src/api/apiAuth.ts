@@ -6,7 +6,10 @@ import type {
 	LoginRequest,
 	ForgotPasswordRequest,
 	ResetPasswordRequest,
+	UserExtended,
+	ChangePasswordRequest,
 } from '../types';
+import { buildQuery } from '../utils/buildQuery';
 
 export function loginUser(dataAuth: LoginRequest) {
 	return request<AuthResponse>('/auth/local', {
@@ -23,7 +26,10 @@ export async function registerUser(dataAuth: RegisterRequest) {
 }
 
 export function getMe(jwt: string) {
-	return request<AuthUser>('/users/me', {
+	const query = buildQuery({
+		populate: '*',
+	});
+	return request<UserExtended>(`/users/me?${query}`, {
 		headers: {
 			Authorization: `Bearer ${jwt}`,
 		},
@@ -41,5 +47,32 @@ export function resetPassword(dataAuth: ResetPasswordRequest) {
 	return request('/auth/reset-password', {
 		method: 'POST',
 		body: JSON.stringify(dataAuth),
+	});
+}
+
+export function changePassword(passUpdate: ChangePasswordRequest, jwt: string) {
+	return request('/auth/change-password', {
+		method: 'POST',
+		headers: { Authorization: `Bearer ${jwt}` },
+		body: JSON.stringify(passUpdate),
+	});
+}
+
+export function updateProfile(
+	dataUpdate: {
+		username: string;
+	},
+	jwt: string,
+	userId: number,
+) {
+	const query = buildQuery({
+		populate: '*',
+	});
+	return request<UserExtended>(`/users/${userId}?${query}`, {
+		method: 'PUT',
+		headers: {
+			Authorization: `Bearer ${jwt}`,
+		},
+		body: JSON.stringify(dataUpdate),
 	});
 }

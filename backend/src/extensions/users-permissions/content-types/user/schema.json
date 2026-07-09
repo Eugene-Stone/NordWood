@@ -71,6 +71,13 @@
       "relation": "oneToMany",
       "target": "api::review.review",
       "mappedBy": "user"
+    },
+    "avatar": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
     }
   }
 }

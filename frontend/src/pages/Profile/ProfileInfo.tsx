@@ -1,58 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import qs from 'qs';
+import { useEffect, useState } from 'react';
 import useAuthContext from '../../context/AuthContext/useAuthContext';
 
-import type { review } from '@backend-types/types';
-import { AuthUser } from '../../types';
-import request from '../../api/request';
+import { BACKEND_URL } from '../../../CONSTANTS';
+import useProtectRoute from '../../utils/useProtectRoute';
+import { useForm } from 'react-hook-form';
+import { updateProfile } from '../../api/apiAuth';
+import FormDataChange from './components/FormDataChange';
+import FormPasswordChange from './components/FormPasswordChange';
 
 export default function ProfileInfo() {
 	const { jwt, user } = useAuthContext();
-	const [dataUser, setDataUser] = useState<AuthUser | null>(null);
 
-	return (
-		<form className="nw-auth-form" action="#" method="POST">
-			<div className="nw-auth-group">
-				<label className="nw-auth-label" htmlFor="profile-firstname">
-					Никнейм
-				</label>
-				<input
-					className="nw-auth-input"
-					type="text"
-					id="profile-firstname"
-					required
-					readOnly
-					defaultValue={user?.username}
-				/>
+	const [edit, setEdit] = useState(false);
+	const [editPass, setEditPass] = useState(false);
+
+	useProtectRoute('/login');
+
+	if (edit) {
+		return <FormDataChange user={user!} jwt={jwt!} edit={edit} setEdit={setEdit} />;
+	} else if (editPass) {
+		return <FormPasswordChange jwt={jwt!} editPass={editPass} setEditPass={setEditPass} />;
+	} else {
+		return (
+			<div className="nw-auth-form">
+				<div className="nw-auth-group">
+					<label className="nw-auth-label" htmlFor="profile-firstname">
+						Аватар
+					</label>
+					<img
+						className="nw-auth-image"
+						src={BACKEND_URL + user?.avatar?.url}
+						alt={user?.username}
+					/>
+				</div>
+				<div className="nw-auth-group">
+					<label className="nw-auth-label" htmlFor="profile-firstname">
+						Никнейм
+					</label>
+					<strong>{user?.username}</strong>
+				</div>
+				<div className="nw-auth-group">
+					<label className="nw-auth-label" htmlFor="profile-email">
+						Электронная почта
+					</label>
+					<strong>{user?.email}</strong>
+				</div>
+				<div className="nw-auth-group">
+					<label className="nw-auth-label" htmlFor="profile-password">
+						<button onClick={() => setEditPass(true)}>Сменить пароль</button>
+					</label>
+				</div>
+				<button className="nw-auth-button" type="button" onClick={() => setEdit(true)}>
+					Редактировать данные
+				</button>
 			</div>
-			<div className="nw-auth-group">
-				<label className="nw-auth-label" htmlFor="profile-email">
-					Электронная почта
-				</label>
-				<input
-					className="nw-auth-input"
-					type="email"
-					id="profile-email"
-					required
-					readOnly
-					defaultValue={user?.email}
-					autoComplete="email"
-				/>
-			</div>
-			<div className="nw-auth-group">
-				<label className="nw-auth-label" htmlFor="profile-phone">
-					Телефон
-				</label>
-				<input
-					className="nw-auth-input"
-					type="tel"
-					id="profile-phone"
-					defaultValue="+7 (999) 000-00-00"
-				/>
-			</div>
-			<button className="nw-auth-button" type="submit" style={{ maxWidth: 200 }}>
-				Сохранить данные
-			</button>
-		</form>
-	);
+		);
+	}
 }

@@ -20,7 +20,7 @@ export default function Reviews({ data }: Props) {
 				const { data } = await request<{ data: reviewType.Review_Plain[] }>(
 					'/reviews?populate=*',
 				);
-				console.log(data);
+				// console.log(data);
 				setReviews(data);
 			} catch (error) {
 				console.log(error instanceof Error ? error.message : 'Unknown error');

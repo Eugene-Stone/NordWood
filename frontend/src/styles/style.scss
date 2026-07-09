@@ -5,6 +5,7 @@ $color-bg-1: #ffffff;
 $color-bg-2: #2d2a26;
 $color-bg-3: #f3efe8;
 $color-accent: #b8976e;
+$color-accent-lighten: #caa87e;
 $color-accent-hover: #9c7d58;
 $color-text-dark: #1a1816;
 $color-text-light: #f5f2ed;
@@ -475,7 +476,7 @@ strong {
 .head-cell {
 	display: flex;
 	align-items: center;
-	gap: 24px;
+	gap: 16px;
 
 	&:first-child {
 		flex-shrink: 0;
@@ -553,11 +554,20 @@ strong {
 		height: 42px;
 		border-radius: 50%;
 		transition: all $transition-base;
+		position: relative;
+		.auth-on {
+			line-height: 1;
+			position: absolute;
+			right: 2px;
+			bottom: 17px;
+			font-size: 9px;
+		}
 
 		svg {
 			transition: all $transition-base;
 
-			g {
+			g,
+			path {
 				stroke: $color-text-dark;
 				transition: stroke $transition-base;
 			}
@@ -566,7 +576,8 @@ strong {
 		&:hover {
 			background: rgba($color-accent, 0.1);
 
-			svg g {
+			svg g,
+			svg path {
 				stroke: $color-accent;
 			}
 		}
@@ -1107,7 +1118,7 @@ strong {
 				color: #fff;
 
 				&:hover {
-					background: lighten($color-accent, 5%);
+					background: $color-accent-lighten;
 				}
 			}
 		}
@@ -1363,6 +1374,17 @@ strong {
 
 			&:hover {
 				color: $color-accent;
+			}
+		}
+	}
+}
+@media (max-width: 991.98px) {
+	.foot-general {
+		.logo-wrap {
+			display: flex;
+			justify-content: center;
+			.logo img {
+				height: 60px;
 			}
 		}
 	}
@@ -1760,6 +1782,14 @@ strong {
 	color: var(--nordwood-text-dark);
 }
 
+.nw-auth-image {
+	display: block;
+	width: 80px;
+	aspect-ratio: 1/1;
+	object-fit: cover;
+	border-radius: 8px;
+}
+
 /* Form Elements */
 .nw-auth-form {
 	display: flex;
@@ -1899,4 +1929,82 @@ strong {
 	.nw-profile-form-grid {
 		grid-template-columns: 1fr;
 	}
+}
+
+
+
+.success-field {
+	color: rgb(127, 224, 42) !important;
+}
+.error-field {
+	color: rgb(229, 73, 73) !important;
+}
+
+/* Change Password Form Styles */
+.nw-password-change-container {
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--nordwood-white, #ffffff);
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.nw-password-change-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 24px;
+  color: var(--nordwood-text-dark, #1a1a1a);
+}
+
+.nw-password-change-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.nw-password-change-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nw-password-change-label {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--nordwood-text-muted, #575757);
+}
+
+.nw-password-change-input {
+  font-family: inherit;
+  font-size: 16px;
+  padding: 12px;
+  border: 1px solid var(--nordwood-border, #cccccc);
+  background-color: transparent;
+  color: var(--nordwood-text-dark, #1a1a1a);
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.nw-password-change-input:focus {
+  border-color: var(--nordwood-accent, #2c2a38);
+}
+
+.nw-password-change-button {
+  font-family: inherit;
+  font-size: 16px;
+  padding: 14px;
+  background-color: var(--nordwood-accent, #2c2a38);
+  color: var(--nordwood-white, #ffffff);
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  margin-top: 10px;
+  align-self: flex-start;
+}
+
+.nw-password-change-button:hover {
+  opacity: 0.9;
 }

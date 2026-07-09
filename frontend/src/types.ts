@@ -1,4 +1,4 @@
-import type { User } from '@backend-types/types';
+import type { User, Media, review } from '@backend-types/types';
 
 export interface RegisterRequest {
 	username: string;
@@ -13,6 +13,12 @@ export interface RegisterRequest {
 // }
 
 export type AuthUser = User.User_Plain;
+
+export interface UserExtended extends User.User_Plain {
+	avatar?: Media.Media_Plain;
+	reviews?: review.Review_Plain[];
+	// role?: Role.Role_Plain;
+}
 
 export interface LoginRequest {
 	identifier: string;
@@ -30,15 +36,22 @@ export interface ResetPasswordRequest {
 
 export interface AuthResponse {
 	jwt: string;
-	user: AuthUser;
+	user: UserExtended;
 }
 
 export interface AuthContextType {
-	user: AuthUser | null;
+	user: UserExtended | null;
 	jwt: string | null;
 	isAuthenticated: boolean;
 	loading: boolean;
 
-	login: (jwt: string, user: AuthUser) => void;
+	login: (jwt: string, user: UserExtended) => void;
 	logout: () => void;
+	refreshUser: () => void;
+}
+
+export interface ChangePasswordRequest {
+	currentPassword: string;
+	password: string;
+	passwordConfirmation: string;
 }

@@ -1,15 +1,15 @@
 import { createContext, useEffect, useState } from 'react';
-import { AuthUser, AuthContextType } from '../../types';
+import { AuthUser, AuthContextType, UserExtended } from '../../types';
 import { getMe } from '../../api/apiAuth.ts';
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export default function AuthContextProvider({ children }: React.PropsWithChildren) {
 	const [jwt, setJwt] = useState<string | null>(null);
-	const [user, setUser] = useState<AuthUser | null>(null);
+	const [user, setUser] = useState<UserExtended | null>(null);
 	const [loading, setLoading] = useState(true);
 
-	async function login(jwt: string, user: AuthUser) {
+	async function login(jwt: string, user: UserExtended) {
 		localStorage.setItem('jwt', jwt);
 
 		try {
@@ -28,6 +28,15 @@ export default function AuthContextProvider({ children }: React.PropsWithChildre
 		setJwt(null);
 		setUser(null);
 	}
+
+	const refreshUser = async () => {
+		const me = await getMe(jwt!);
+		setUser(me);
+
+		// console.log(me?.username);
+		// console.log(me?.email);
+		// console.log(me?.avatar);
+	};
 
 	async function restoreSession() {
 		const token = localStorage.getItem('jwt');
@@ -65,6 +74,7 @@ export default function AuthContextProvider({ children }: React.PropsWithChildre
 				loading,
 				login,
 				logout,
+				refreshUser,
 				isAuthenticated: !!user,
 			}}>
 			{children}
