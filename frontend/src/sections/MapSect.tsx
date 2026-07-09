@@ -14,10 +14,12 @@ export default function MapSect({ data }: Props) {
 				{title && (
 					<div className="container">
 						<div className="title-sect">
-							<h2
-								className="h1-title"
-								data-href="https://maps.app.goo.gl/U2ZhYnsoLQiTe97G6">
-								{title}
+							<h2 className="h1-title">
+								<a
+									href={`https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`}
+									target="_blank">
+									{title}
+								</a>
 							</h2>
 						</div>
 					</div>

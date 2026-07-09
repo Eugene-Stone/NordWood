@@ -65,7 +65,9 @@ export default function HeaderScrollToSection({
 	} else {
 		return (
 			<li>
-				<button onClick={() => (setMenuOpen(false), scrollToSection(url))}>
+				<button
+					className="menu__link"
+					onClick={() => (setMenuOpen(false), scrollToSection(url))}>
 					{children}
 				</button>
 			</li>

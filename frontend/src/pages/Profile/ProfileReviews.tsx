@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import qs from 'qs';
 
 import useAuthContext from '../../context/AuthContext/useAuthContext';
 import { review as reviewType } from '@backend-types/types';
 import request from '../../api/request';
+import { buildQuery } from '../../utils/buildQuery';
 
 export default function ProfileReviews() {
 	const { user } = useAuthContext();
@@ -11,22 +11,18 @@ export default function ProfileReviews() {
 
 	useEffect(() => {
 		async function fetchReviews() {
-			const query = qs.stringify(
-				{
-					filters: {
-						user: {
-							id: {
-								$eq: user?.id,
-							},
+			const query = buildQuery({
+				filters: {
+					user: {
+						id: {
+							$eq: user?.id,
 						},
 					},
-					populate: '*',
 				},
-				{
-					encodeValuesOnly: true,
-				},
-			);
-			// console.log(query);
+				populate: '*',
+			});
+
+			console.log(query);
 
 			try {
 				const { data } = await request<{ data: reviewType.Review_Plain[] }>(
