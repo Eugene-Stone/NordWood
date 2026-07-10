@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import useAuthContext from '../../../context/AuthContext/useAuthContext';
 
 import { useForm } from 'react-hook-form';
-import { updateProfile } from '../../../api/apiAuth';
+import { updateProfile, uploadFile } from '../../../api/apiAuth';
 import { UserExtended } from '../../../types';
 type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
@@ -15,6 +15,13 @@ interface Props {
 interface ProfileForm {
 	username: string;
 	email: string;
+	avatarFile?: FileList; // Для инпута типа file
+}
+
+interface UpdateProfilePayload {
+	username: string;
+	email: string;
+	avatar?: number;
 }
 
 export default function FormDataChange({ user, jwt, edit, setEdit }: Props) {
@@ -43,21 +50,55 @@ export default function FormDataChange({ user, jwt, edit, setEdit }: Props) {
 		}
 	}, [edit, user, reset]);
 
+	// async function onSubmit(dataUpdate: ProfileForm) {
+	// 	try {
+	// 		setStatus('loading');
+	// 		await updateProfile(dataUpdate, jwt!, user!.id!);
+	// 		await refreshUser();
+
+	// 		setStatus('success');
+	// 		setEdit(false);
+	// 	} catch (error) {
+	// 		if (error instanceof Error) {
+	// 			setServerError(error.message);
+	// 			console.log(error);
+	// 			console.log(error.message);
+	// 		}
+
+	// 		setStatus('error');
+	// 	}
+	// }
+
 	async function onSubmit(dataUpdate: ProfileForm) {
 		try {
 			setStatus('loading');
-			await updateProfile(dataUpdate, jwt!, user!.id!);
+
+			// Объект, который полетит в PUT-запрос
+			const payloadData: UpdateProfilePayload = {
+				username: dataUpdate.username,
+				email: dataUpdate.email,
+			};
+
+			// Проверяем, прикрепил ли пользователь файл
+			if (dataUpdate.avatarFile && dataUpdate.avatarFile.length > 0) {
+				const file = dataUpdate.avatarFile[0];
+				// 1. Грузим файл на сервер Strapi
+				const uploadResult = await uploadFile(file, jwt!);
+
+				// 2. Забираем ID загруженного медиафайла и пишем в payloadData
+				if (uploadResult && uploadResult[0]) {
+					payloadData.avatar = uploadResult[0].id;
+				}
+			}
+
+			// Отправляем обновленные текстовые поля + ID новой аватарки
+			await updateProfile(payloadData, jwt!, user!.id!);
 			await refreshUser();
 
 			setStatus('success');
 			setEdit(false);
 		} catch (error) {
-			if (error instanceof Error) {
-				setServerError(error.message);
-				console.log(error);
-				console.log(error.message);
-			}
-
+			if (error instanceof Error) setServerError(error.message);
 			setStatus('error');
 		}
 	}
@@ -66,6 +107,10 @@ export default function FormDataChange({ user, jwt, edit, setEdit }: Props) {
 		<form
 			className={status === 'loading' ? 'nw-auth-form sending' : 'nw-auth-form'}
 			onSubmit={handleSubmit(onSubmit)}>
+			<div className="nw-auth-group">
+				<label className="nw-auth-label">Новый аватар</label>
+				<input {...register('avatarFile')} type="file" accept="image/*" />
+			</div>
 			<div className="nw-auth-group">
 				<label className="nw-auth-label" htmlFor="profile-firstname">
 					Никнейм

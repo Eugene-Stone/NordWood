@@ -47,7 +47,7 @@ export default function HeaderScrollToSection({
 
 	if (location.pathname === '/') {
 		return (
-			<li className={activeSection === url.replace('#', '') ? 'activeLi' : ''}>
+			<li className={activeSection === url.replace('#', '') ? 'active-li' : ''}>
 				<Link
 					className="menu__link"
 					to={url.replace('#', '')}

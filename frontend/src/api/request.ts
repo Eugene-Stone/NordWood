@@ -33,5 +33,14 @@ export default async function request<T>(endpoint = '/', options: RequestOptions
 		throw new Error(error.error?.message ?? `HTTP error: ${response.status}`);
 	}
 
+	// Проверяем статус 204 (No Content) или пустой ответ
+	if (response.status === 204) {
+		return {} as T;
+	}
+
+	// Безопасно парсим JSON, только если он есть
+	const text = await response.text();
+	return text ? JSON.parse(text) : ({} as T);
+
 	return response.json();
 }

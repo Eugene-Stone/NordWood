@@ -8,8 +8,12 @@ import type {
 	ResetPasswordRequest,
 	UserExtended,
 	ChangePasswordRequest,
+	CommentType,
+	ReviewResponse,
 } from '../types';
 import { buildQuery } from '../utils/buildQuery';
+import { BACKEND_URL } from '../../CONSTANTS';
+import { review } from '@backend-types/types';
 
 export function loginUser(dataAuth: LoginRequest) {
 	return request<AuthResponse>('/auth/local', {
@@ -59,9 +63,7 @@ export function changePassword(passUpdate: ChangePasswordRequest, jwt: string) {
 }
 
 export function updateProfile(
-	dataUpdate: {
-		username: string;
-	},
+	dataUpdate: { username: string; email: string; avatar?: number },
 	jwt: string,
 	userId: number,
 ) {
@@ -74,5 +76,55 @@ export function updateProfile(
 			Authorization: `Bearer ${jwt}`,
 		},
 		body: JSON.stringify(dataUpdate),
+	});
+}
+
+export async function uploadFile(file: File, jwt: string): Promise<{ id: number; url: string }[]> {
+	const formData = new FormData();
+	formData.append('files', file);
+
+	// Используем нативный fetch напрямую или модифицируем request,
+	// так как для FormData НЕЛЬЗЯ ставить заголовок Content-Type вручную (браузер сделает это сам)
+	const response = await fetch(`${BACKEND_URL}/api/upload`, {
+		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${jwt}`,
+			// Никаких 'Content-Type': 'application/json' тут быть не должно!
+		},
+		body: formData,
+	});
+
+	if (!response.ok) throw new Error('Ошибка загрузки файла');
+	return response.json();
+}
+
+export async function leaveReview(commentData: CommentType) {
+	const data = { data: commentData };
+
+	return await request<ReviewResponse>('/reviews', {
+		method: 'POST',
+		body: JSON.stringify(data),
+	});
+}
+
+export async function updateReview(commentData: CommentType, reviewId: string, jwt: string) {
+	const data = { data: commentData };
+
+	return await request<ReviewResponse>(`/reviews/${reviewId}`, {
+		method: 'PUT',
+		headers: {
+			Authorization: `Bearer ${jwt}`,
+		},
+		body: JSON.stringify(data),
+	});
+}
+
+export async function deleteReview(reviewId: string, jwt: string) {
+	return await request(`/reviews/${reviewId}`, {
+		method: 'DELETE',
+		headers: {
+			Authorization: `Bearer ${jwt}`,
+		},
+		// body: JSON.stringify(reviewId),
 	});
 }

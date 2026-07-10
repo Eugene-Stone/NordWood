@@ -55,3 +55,12 @@ export interface ChangePasswordRequest {
 	password: string;
 	passwordConfirmation: string;
 }
+
+export interface CommentType {
+	title: string;
+	rating: number;
+	text: string;
+	user?: number;
+}
+
+export type ReviewResponse = review.Review_Plain;

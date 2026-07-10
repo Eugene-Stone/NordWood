@@ -4,12 +4,37 @@ import useAuthContext from '../../context/AuthContext/useAuthContext';
 import { review as reviewType } from '@backend-types/types';
 import request from '../../api/request';
 import { buildQuery } from '../../utils/buildQuery';
+import { deleteReview } from '../../api/apiAuth';
+import FormReview from './components/FormReview';
+
+export interface Review extends reviewType.Review_Plain {
+	documentId: string;
+}
 
 export default function ProfileReviews() {
-	const { user } = useAuthContext();
-	const [reviews, setReviews] = useState<reviewType.Review_Plain[]>();
+	const { user, jwt, refreshUser } = useAuthContext();
+	const [reviews, setReviews] = useState<Review[]>();
+	const [serverError, setServerError] = useState('');
+	const [editingReview, setEditingReview] = useState<Review | null>(null);
+
+	const propsForm = { serverError, setServerError, editingReview, setEditingReview };
+
+	async function removeReview(reviewId: string, jwt: string) {
+		try {
+			await deleteReview(reviewId, jwt);
+			await refreshUser();
+		} catch (error) {
+			if (error instanceof Error) {
+				setServerError(error.message);
+				console.log(error);
+				console.log(error.message);
+			}
+		}
+	}
 
 	useEffect(() => {
+		if (!user?.id) return; // Не делаем запрос без ID
+
 		async function fetchReviews() {
 			const query = buildQuery({
 				filters: {
@@ -22,10 +47,10 @@ export default function ProfileReviews() {
 				populate: '*',
 			});
 
-			console.log(query);
+			// console.log(query);
 
 			try {
-				const { data } = await request<{ data: reviewType.Review_Plain[] }>(
+				const { data } = await request<{ data: Review[] }>(
 					// `/reviews?filters[user][id][$eq]=${user?.id}&populate=*`,
 					`/reviews?${query}`,
 					{
@@ -43,26 +68,43 @@ export default function ProfileReviews() {
 		}
 
 		fetchReviews();
-	}, [user]);
+	}, [user, editingReview]);
 
 	return (
-		<ul className="reviews__list">
-			{reviews?.map((review, i) => {
-				const date = new Date(review.createdAt).toLocaleDateString('uk-UA');
-				return (
-					<li key={i} className="review-slide-inner">
-						<div className="review-slide-top-line">
-							<div className="review-slide-author">{review?.user?.username}</div>
-							<div className="review-slide-date">{date}</div>
-						</div>
-						<div className="review-slide-txt">
-							Оценка <strong>{review.rating}</strong>{' '}
-							{review.rating === 5 ? 'звезд!!!' : 'звезды'} <br />
-							{review.text}
-						</div>
-					</li>
-				);
-			})}
-		</ul>
+		<>
+			<ul className="reviews__list">
+				{reviews?.map((review, i) => {
+					const date = new Date(review.createdAt).toLocaleDateString('uk-UA');
+					return (
+						<li key={i} className="review-slide-inner">
+							<div className="review-slide-top-line">
+								<button
+									onClick={() => removeReview(review.documentId, jwt!)}
+									className="delete"
+									type="button">
+									X
+								</button>
+								<div className="review-slide-author">{review?.user?.username}</div>
+								<div className="review-slide-date">{date}</div>
+							</div>
+							<div className="review-slide-txt">
+								Оценка <strong>{review.rating}</strong>{' '}
+								{review.rating === 5 ? 'звезд!!!' : 'звезды'} <br />
+								{review.text}
+								<br />
+								<button
+									onClick={() => setEditingReview(review)}
+									className="edit"
+									type="button">
+									Изменить отзыв
+								</button>
+							</div>
+						</li>
+					);
+				})}
+			</ul>
+
+			<FormReview {...propsForm} />
+		</>
 	);
 }
