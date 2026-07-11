@@ -2,26 +2,86 @@ import React, { useEffect, useState } from 'react';
 import useBlogData from '../hooks/useBlogData';
 import Seo from '../components/Seo';
 import DynamicSections from '../components/DynamicSections';
-import { article } from '@backend-types/types';
+import { article, category } from '@backend-types/types';
 import request from '../api/request';
 import { buildQuery } from '../utils/buildQuery';
 import { BACKEND_URL, FRONTEND_URL } from '../../CONSTANTS';
 import { Link } from 'react-router-dom';
+import { useDebounce } from '../utils/useDebounce';
 
 export default function Blog() {
 	const { blogData } = useBlogData();
 	const sections = blogData?.sections ?? [];
 	const [articles, setArticles] = useState<article.Article_Plain[]>();
+	const [sorting, setSorting] = useState('createdAt:desc');
+	const [filterItems, setFilterItems] = useState<category.Category_Plain[]>();
+	const [filtersActive, setFiltersActive] = useState<string[]>([]);
+	const [searchQuery, setSearchQuery] = useState('');
+
+	const handleFilterChange = (value: string, checked: boolean) => {
+		setFiltersActive((prev) =>
+			checked ? [...prev, value] : prev.filter((item) => item !== value),
+		);
+	};
+
+	const searchQueryDebounce = useDebounce(searchQuery, 500);
+	// console.log('searchQueryDebounce ', searchQueryDebounce);
+
+	useEffect(() => {
+		async function getCategories() {
+			try {
+				const { data } = await request<{ data: category.Category_Plain[] }>(
+					`categories/?populate=*`,
+				);
+
+				setFilterItems(data);
+			} catch (error) {
+				if (error instanceof Error) {
+					// setServerError(error.message);
+					console.log(error);
+					console.log(error.message);
+				}
+			}
+		}
+		getCategories();
+	}, []);
 
 	useEffect(() => {
 		async function getArticles() {
 			try {
 				const query = buildQuery({
+					filters: {
+						// Фильтра
+						category: {
+							slug: {
+								// Множество фильтров в массиве
+								$in: filtersActive,
+
+								// Если будет только один фильтр
+								// $eq: 'proizvodstvo',
+
+								// Множество фильтров c условием $or
+								// $or: [
+								// 	{ slug: { $eq: 'proizvodstvo' } },
+								// 	{ slug: { $eq: 'qwerty' } },
+								// ],
+							},
+						},
+						// Поиск
+						title: {
+							$containsi: searchQueryDebounce,
+						},
+					},
+					// Сортировка
+					sort: [sorting],
 					populate: '*',
 				});
 
+				// console.log(query);
+
 				const { data } = await request<{ data: article.Article_Plain[] }>(
-					`articles/?${query}`,
+					`articles?${query}`,
+					// `articles/?populate=*`,
 				);
 				// console.log(data);
 
@@ -35,11 +95,12 @@ export default function Blog() {
 			}
 		}
 		getArticles();
-	}, []);
+	}, [sorting, filtersActive, searchQueryDebounce]);
 
 	return (
 		<>
 			{blogData?.seo && <Seo seo={blogData.seo} />}
+
 			<section className="nw-blog-section">
 				<div className="nw-blog-container">
 					<h2 className="nw-auth-title">{blogData?.title}</h2>
@@ -49,11 +110,22 @@ export default function Blog() {
 							{/* Search Widget */}
 							<div className="nw-widget">
 								<h3 className="nw-widget-title">Поиск</h3>
-								<form className="nw-search-form" action="#" method="GET">
+								<form
+									className="nw-search-form"
+									onSubmit={(e) => {
+										e.preventDefault();
+
+										/* const formData = new FormData(e.currentTarget);
+										const query = formData.get('search') as string; // Получаем значение по атрибуту name
+
+										setSearchQuery(query); */
+									}}>
 									<input
 										className="nw-search-input"
+										name="search" // ОБЯЗАТЕЛЬНО добавить name, если обработчик формы будет у тега form
 										type="text"
 										placeholder="Поиск по статьям..."
+										onChange={(e) => setSearchQuery(e.target.value)}
 									/>
 									<button className="nw-search-button" type="submit">
 										Найти
@@ -63,47 +135,38 @@ export default function Blog() {
 							{/* Sorting Widget */}
 							<div className="nw-widget">
 								<h3 className="nw-widget-title">Сортировка</h3>
-								<select className="nw-sort-select">
-									<option value="newest">Сначала новые</option>
-									<option value="oldest">Сначала старые</option>
-									<option value="popular">По популярности</option>
+								<select
+									className="nw-sort-select"
+									onChange={(e) => setSorting(e.target.value)}>
+									<option value="createdAt:desc">Сначала новые</option>
+									<option value="createdAt:asc">Сначала старые</option>
 								</select>
 							</div>
 							{/* Category Filter Widget */}
 							<div className="nw-widget">
 								<h3 className="nw-widget-title">Категории</h3>
 								<ul className="nw-filter-list">
-									<li>
-										<label className="nw-filter-label">
-											<input
-												className="nw-filter-checkbox"
-												type="checkbox"
-												defaultValue="interiors"
-												defaultChecked
-											/>
-											<span>Интерьеры (12)</span>
-										</label>
-									</li>
-									<li>
-										<label className="nw-filter-label">
-											<input
-												className="nw-filter-checkbox"
-												type="checkbox"
-												defaultValue="materials"
-											/>
-											<span>Материалы и дерево (8)</span>
-										</label>
-									</li>
-									<li>
-										<label className="nw-filter-label">
-											<input
-												className="nw-filter-checkbox"
-												type="checkbox"
-												defaultValue="process"
-											/>
-											<span>Производство (5)</span>
-										</label>
-									</li>
+									{filterItems?.map((filter) => (
+										<li key={filter.slug}>
+											<label className="nw-filter-label">
+												<input
+													className="nw-filter-checkbox"
+													type="checkbox"
+													value={filter.slug}
+													checked={filtersActive.includes(filter.slug!)}
+													onChange={(e) =>
+														handleFilterChange(
+															e.target.value,
+															e.target.checked,
+														)
+													}
+												/>
+												<span>
+													{filter.title} ({filter.articles.length})
+												</span>
+											</label>
+										</li>
+									))}
 								</ul>
 							</div>
 						</aside>
@@ -192,6 +255,7 @@ export default function Blog() {
 					</nav>
 				</div>
 			</section>
+
 			<DynamicSections sections={sections} />
 		</>
 	);
