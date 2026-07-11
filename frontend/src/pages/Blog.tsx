@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
 import useBlogData from '../hooks/useBlogData';
 import Seo from '../components/Seo';
 import DynamicSections from '../components/DynamicSections';
@@ -9,14 +11,43 @@ import { BACKEND_URL, FRONTEND_URL } from '../../CONSTANTS';
 import { Link } from 'react-router-dom';
 import { useDebounce } from '../utils/useDebounce';
 
+type Pagination = {
+	page: number;
+	pageSize: number;
+	pageCount: number;
+	total: number;
+};
+type ArticlesResponse = {
+	data: article.Article_Plain[];
+	meta: {
+		pagination: Pagination;
+	};
+};
+
 export default function Blog() {
+	const [searchParams, setSearchParams] = useSearchParams();
 	const { blogData } = useBlogData();
+
 	const sections = blogData?.sections ?? [];
 	const [articles, setArticles] = useState<article.Article_Plain[]>();
 	const [sorting, setSorting] = useState('createdAt:desc');
 	const [filterItems, setFilterItems] = useState<category.Category_Plain[]>();
 	const [filtersActive, setFiltersActive] = useState<string[]>([]);
 	const [searchQuery, setSearchQuery] = useState('');
+
+	const [pagination, setPagination] = useState<Pagination | null>(null);
+	const [pageCurrent, setPageCurrent] = useState(1);
+
+	function prevPage() {
+		if (pageCurrent > 1) {
+			setPageCurrent((prev) => prev - 1);
+		}
+	}
+	function nextPage() {
+		if (pagination && pageCurrent < pagination?.pageCount) {
+			setPageCurrent((prev) => prev + 1);
+		}
+	}
 
 	const handleFilterChange = (value: string, checked: boolean) => {
 		setFiltersActive((prev) =>
@@ -25,7 +56,55 @@ export default function Blog() {
 	};
 
 	const searchQueryDebounce = useDebounce(searchQuery, 500);
-	// console.log('searchQueryDebounce ', searchQueryDebounce);
+
+	useEffect(() => {
+		const page = Number(searchParams.get('page'));
+
+		if (page) {
+			//eslint-disable-next-line
+			setPageCurrent(page);
+		}
+
+		const sort = searchParams.get('sort');
+
+		if (sort) {
+			setSorting(sort);
+		}
+
+		const search = searchParams.get('search');
+
+		if (search) {
+			setSearchQuery(search);
+		}
+
+		const categories = searchParams.getAll('category');
+
+		if (categories.length) {
+			setFiltersActive(categories);
+		}
+	}, [searchParams]);
+
+	useEffect(() => {
+		const params = new URLSearchParams();
+
+		if (pageCurrent > 1) {
+			params.set('page', String(pageCurrent));
+		}
+
+		if (sorting !== 'createdAt:desc') {
+			params.set('sort', sorting);
+		}
+
+		if (searchQueryDebounce) {
+			params.set('search', searchQueryDebounce);
+		}
+
+		filtersActive.forEach((category) => {
+			params.append('category', category);
+		});
+
+		setSearchParams(params);
+	}, [setSearchParams, pageCurrent, sorting, filtersActive, searchQueryDebounce]);
 
 	useEffect(() => {
 		async function getCategories() {
@@ -45,6 +124,11 @@ export default function Blog() {
 		}
 		getCategories();
 	}, []);
+
+	useEffect(() => {
+		//eslint-disable-next-line
+		setPageCurrent(1);
+	}, [sorting, filtersActive, searchQueryDebounce]);
 
 	useEffect(() => {
 		async function getArticles() {
@@ -74,18 +158,25 @@ export default function Blog() {
 					},
 					// Сортировка
 					sort: [sorting],
+					pagination: {
+						page: pageCurrent,
+						pageSize: 2,
+					},
 					populate: '*',
 				});
 
-				// console.log(query);
+				console.log(query);
 
-				const { data } = await request<{ data: article.Article_Plain[] }>(
+				const response = await request<ArticlesResponse>(
 					`articles?${query}`,
 					// `articles/?populate=*`,
 				);
-				// console.log(data);
+				const { data, meta } = response;
+				// console.log(dataAll);
+				console.log(meta.pagination);
 
 				setArticles(data);
+				setPagination(meta.pagination);
 			} catch (error) {
 				if (error instanceof Error) {
 					// setServerError(error.message);
@@ -95,7 +186,7 @@ export default function Blog() {
 			}
 		}
 		getArticles();
-	}, [sorting, filtersActive, searchQueryDebounce]);
+	}, [sorting, filtersActive, searchQueryDebounce, pageCurrent]);
 
 	return (
 		<>
@@ -124,6 +215,7 @@ export default function Blog() {
 										className="nw-search-input"
 										name="search" // ОБЯЗАТЕЛЬНО добавить name, если обработчик формы будет у тега form
 										type="text"
+										value={searchQuery}
 										placeholder="Поиск по статьям..."
 										onChange={(e) => setSearchQuery(e.target.value)}
 									/>
@@ -137,6 +229,7 @@ export default function Blog() {
 								<h3 className="nw-widget-title">Сортировка</h3>
 								<select
 									className="nw-sort-select"
+									value={sorting}
 									onChange={(e) => setSorting(e.target.value)}>
 									<option value="createdAt:desc">Сначала новые</option>
 									<option value="createdAt:asc">Сначала старые</option>
@@ -224,34 +317,35 @@ export default function Blog() {
 					</div>
 
 					<nav className="nw-pagination" aria-label="Навигация по страницам">
-						<a
+						<button
 							className="nw-pagination-item nw-pagination-arrow"
-							href="#"
+							onClick={prevPage}
+							type="button"
 							aria-label="Предыдущая страница">
 							‹
-						</a>
-						<a
-							className="nw-pagination-item nw-pagination-item-active"
-							href="#"
-							aria-current="page">
-							1
-						</a>
-						<a className="nw-pagination-item" href="#">
-							2
-						</a>
-						<a className="nw-pagination-item" href="#">
-							3
-						</a>
-						<span className="nw-pagination-spacer">...</span>
-						<a className="nw-pagination-item" href="#">
-							8
-						</a>
-						<a
+						</button>
+
+						{pagination &&
+							Array.from({ length: pagination?.pageCount }, (_, i) => (
+								<button
+									key={i}
+									className={
+										pageCurrent === i + 1
+											? 'nw-pagination-item nw-pagination-item-active'
+											: 'nw-pagination-item'
+									}
+									onClick={() => setPageCurrent(i + 1)}>
+									{i + 1}
+								</button>
+							))}
+
+						<button
 							className="nw-pagination-item nw-pagination-arrow"
-							href="#"
+							onClick={nextPage}
+							type="button"
 							aria-label="Следующая страница">
 							›
-						</a>
+						</button>
 					</nav>
 				</div>
 			</section>
