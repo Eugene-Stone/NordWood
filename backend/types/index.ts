@@ -1,3 +1,6 @@
+export * as article from '../src/api/article/content-types/article/article';
+export * as blog from '../src/api/blog/content-types/blog/blog';
+export * as category from '../src/api/category/content-types/category/category';
 export * as form from '../src/api/form/content-types/form/form';
 export * as form_request from '../src/api/form-request/content-types/form-request/form-request';
 export * as gallery from '../src/api/gallery/content-types/gallery/gallery';

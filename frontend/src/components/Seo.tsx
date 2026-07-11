@@ -25,7 +25,7 @@ export default function Seo({ seo }: Props) {
 
 	return (
 		<Helmet>
-			<title>{seo.metaTitle}</title>
+			<title>{`NordWood | ${seo.metaTitle}`}</title>
 			<meta name="description" content={seo.metaDescription} />
 			<meta name="keywords" content={seo.metaKeywords} />
 			<link rel="canonical" href={seo.canonical} />

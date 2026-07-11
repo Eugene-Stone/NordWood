@@ -16,7 +16,7 @@ export default function ProfileInfo() {
 
 	useProtectRoute('/login');
 
-	console.log(user);
+	// console.log(user);
 
 	if (edit) {
 		return <FormDataChange user={user!} jwt={jwt!} edit={edit} setEdit={setEdit} />;

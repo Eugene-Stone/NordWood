@@ -14,11 +14,13 @@ import SignUp from './pages/_auth/SignUp';
 import SignIn from './pages/_auth/SignIn';
 import ForgotPassword from './pages/_auth/ForgotPassword';
 import ResetPassword from './pages/_auth/ResetPassword';
-import Profile from './pages/Profile/Profile';
+// import Profile from './pages/Profile/Profile';
 import ProfileLayout from './pages/Profile/ProfileLayout.tsx';
 import ProfileInfo from './pages/Profile/ProfileInfo.tsx';
 import ProfileReviews from './pages/Profile/ProfileReviews.tsx';
 import ProfileComments from './pages/Profile/ProfileComments.tsx';
+import Blog from './pages/Blog.tsx';
+import Article from './pages/Article.tsx';
 
 function Layout() {
 	return (
@@ -51,7 +53,8 @@ const router = createBrowserRouter(
 				{ path: '/registration', element: <SignUp /> },
 				{ path: '/forgot-password', element: <ForgotPassword /> },
 				{ path: '/reset-password', element: <ResetPassword /> },
-				// { path: '/profile', element: <Profile /> },
+				{ path: '/blog', element: <Blog /> },
+				{ path: '/blog/:slug', element: <Article /> },
 				{
 					path: 'profile',
 					element: <ProfileLayout />,

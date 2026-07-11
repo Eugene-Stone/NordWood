@@ -2344,3 +2344,59 @@ strong {
   color: var(--nordwood-text-dark, #1a1a1a);
   text-decoration: underline;
 }
+
+/* Blog Pagination Styles */
+.nw-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 50px;
+  padding: 20px 0;
+  width: 100%;
+}
+
+.nw-pagination-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 6px;
+  border: 1px solid var(--nordwood-border, #cccccc);
+  background-color: var(--nordwood-white, #ffffff);
+  color: var(--nordwood-text-dark, #1a1a1a);
+  font-family: inherit;
+  font-size: 14px;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.nw-pagination-item:hover {
+  border-color: var(--nordwood-accent, #2c2a38);
+  color: var(--nordwood-accent, #2c2a38);
+}
+
+.nw-pagination-item-active {
+  background-color: var(--nordwood-accent, #2c2a38);
+  border-color: var(--nordwood-accent, #2c2a38);
+  color: var(--nordwood-white, #ffffff);
+  pointer-events: none; /* Disables clicking on the current page */
+}
+
+.nw-pagination-spacer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  color: var(--nordwood-text-muted, #575757);
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+/* Arrow adjustments if needed */
+.nw-pagination-arrow {
+  font-size: 16px;
+}
