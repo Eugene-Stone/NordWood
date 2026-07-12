@@ -3,9 +3,11 @@
 import { Category } from '../../../category/content-types/category/category';
 import { Media } from '../../../../common/schemas-to-ts/Media';
 import { Seo } from '../../../../components/layout/interfaces/Seo';
+import { ArticleComment } from '../../../article-comment/content-types/article-comment/article-comment';
 import { Category_Plain } from '../../../category/content-types/category/category';
 import { Media_Plain } from '../../../../common/schemas-to-ts/Media';
 import { Seo_Plain } from '../../../../components/layout/interfaces/Seo';
+import { ArticleComment_Plain } from '../../../article-comment/content-types/article-comment/article-comment';
 import { Seo_NoRelations } from '../../../../components/layout/interfaces/Seo';
 import { AdminPanelRelationPropertyModification } from '../../../../common/schemas-to-ts/AdminPanelRelationPropertyModification';
 
@@ -19,6 +21,7 @@ export interface Article {
     image?: { data: Media };
     text?: any;
     seo?: Seo;
+    article_comments: { data: ArticleComment[] };
   };
 }
 export interface Article_Plain {
@@ -30,6 +33,7 @@ export interface Article_Plain {
   image?: Media_Plain;
   text?: any;
   seo?: Seo_Plain;
+  article_comments: ArticleComment_Plain[];
 }
 
 export interface Article_NoRelations {
@@ -41,6 +45,7 @@ export interface Article_NoRelations {
   image?: number;
   text?: any;
   seo?: Seo_NoRelations;
+  article_comments: number[];
 }
 
 export interface Article_AdminPanelLifeCycle {
@@ -52,4 +57,5 @@ export interface Article_AdminPanelLifeCycle {
   image?: AdminPanelRelationPropertyModification<Media_Plain>;
   text?: any;
   seo?: Seo_Plain;
+  article_comments: AdminPanelRelationPropertyModification<ArticleComment_Plain>;
 }

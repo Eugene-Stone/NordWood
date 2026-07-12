@@ -24,10 +24,13 @@ export default function useArticleData() {
 				category: {
 					populate: '*',
 				},
+				article_comments: {
+					populate: '*',
+				},
 				image: true,
 			},
 		});
-		console.log('query ', query);
+		// console.log('query ', query);
 
 		async function fetchArticleData() {
 			try {
@@ -42,6 +45,7 @@ export default function useArticleData() {
 
 				// Берем ПЕРВЫЙ элемент из массива (или null, если ничего не нашлось)
 				const targetArticle = Array.isArray(data) ? data[0] : data;
+				// console.log(targetArticle);
 
 				setArticleData(targetArticle || null);
 			} catch (error) {

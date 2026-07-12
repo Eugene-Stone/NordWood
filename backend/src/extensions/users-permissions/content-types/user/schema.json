@@ -78,6 +78,12 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "article_comments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article-comment.article-comment",
+      "mappedBy": "user"
     }
   }
 }

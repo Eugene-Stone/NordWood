@@ -4,9 +4,11 @@ import DynamicSections from '../components/DynamicSections';
 import Seo from '../components/Seo';
 import { BACKEND_URL } from '../../CONSTANTS';
 import RichText from '../utils/RichText';
+import useAuthContext from '../context/AuthContext/useAuthContext';
 
 export default function Article() {
 	const { slug } = useParams();
+	const { isAuthenticated } = useAuthContext();
 	const { articleData, loading } = useArticleData();
 	console.log(articleData);
 
@@ -21,6 +23,8 @@ export default function Article() {
 	});
 
 	const formattedDate = formatter.format(date);
+
+	const approvedComments = articleData?.article_comments.filter((comment) => comment.isApproved);
 
 	// if (!articleData) {
 	// 	return <Navigate to="/404" replace />;
@@ -52,6 +56,87 @@ export default function Article() {
 					</div>
 					{/* Post Content Body */}
 					<RichText className="nw-post-body">{articleData?.text}</RichText>
+
+					{articleData && articleData.article_comments.length >= 1 ? (
+						<>
+							<h3 className="nw-comments-title">
+								Комментарии ({approvedComments?.length})
+							</h3>
+							<ul className="nw-comments-list">
+								{articleData?.article_comments.map((coment, i) => {
+									if (coment.isApproved) {
+										const date = new Date(coment?.createdAt || '');
+										// 2. Форматируем с помощью Intl
+										const formatter = new Intl.DateTimeFormat('ru-RU', {
+											day: 'numeric',
+											month: 'long',
+											year: 'numeric',
+											hour: '2-digit',
+											minute: '2-digit',
+										});
+
+										const parts = formatter.formatToParts(date);
+										console.log('date parts ', parts);
+
+										const formattedDate = formatter
+											.format(date)
+											.replace(' г.', ',')
+											.replace(' в ', ' ');
+										return (
+											<li key={i} className="nw-comment-item">
+												<div className="nw-comment-meta">
+													<span className="nw-comment-author">
+														{coment.user?.username}
+													</span>
+													<span className="nw-comment-date">
+														{formattedDate}
+													</span>
+												</div>
+												<p className="nw-comment-text">{coment.text}</p>
+											</li>
+										);
+									}
+								})}
+							</ul>
+						</>
+					) : (
+						<h3 className="nw-comments-title">Комментариев пока нет</h3>
+					)}
+
+					{isAuthenticated ? (
+						<div className="nw-comments-area">
+							<div className="nw-comment-form-wrapper">
+								<h4 className="nw-widget-title">Оставить комментарий</h4>
+								<form className="nw-comment-form" action="#" method="POST">
+									<div className="nw-comment-field-group">
+										<label
+											className="nw-comment-label"
+											htmlFor="comment-message">
+											Ваш комментарий *
+										</label>
+										<textarea
+											className="nw-comment-textarea"
+											id="comment-message"
+											required
+											defaultValue={''}
+										/>
+									</div>
+									<button className="nw-comment-submit-button" type="submit">
+										Отправить
+									</button>
+								</form>
+							</div>
+						</div>
+					) : (
+						<div className="reviews__leave-notice">
+							<p>
+								Чтобы оставлять комментарии,{' '}
+								<Link to="/login">авторизируйтесь</Link> или{' '}
+								<Link to="/registration">зарегистрируйтесь</Link> на&nbsp;сайте.
+							</p>
+						</div>
+					)}
+
 					{/* Post Footer Navigation */}
 					<footer className="nw-post-footer">
 						<Link className="nw-post-back-link" to="/blog">
