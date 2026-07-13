@@ -35,11 +35,11 @@ export default function ForgotPassword() {
 		setServerError('');
 		setStatus('loading');
 
-		console.log(dataAuth);
+		// console.log(dataAuth);
 		try {
 			const response = await forgotPassword(dataAuth);
 
-			console.log(response);
+			// console.log(response);
 			// login(response.jwt, response.user);
 			setStatus('success');
 			reset();

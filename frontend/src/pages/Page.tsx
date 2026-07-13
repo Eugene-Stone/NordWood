@@ -6,7 +6,7 @@ import Seo from '../components/Seo';
 export default function Page() {
 	const { slug } = useParams();
 	const { pageData, loading } = usePageData();
-	console.log(pageData);
+	// console.log(pageData);
 
 	if (loading) return null;
 

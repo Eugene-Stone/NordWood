@@ -39,7 +39,7 @@ export default function FormDataChange({ user, jwt, edit, setEdit }: Props) {
 		mode: 'onChange',
 	});
 
-	console.log(user);
+	// console.log(user);
 
 	useEffect(() => {
 		if (edit && user) {

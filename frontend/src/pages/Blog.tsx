@@ -26,9 +26,15 @@ type ArticlesResponse = {
 	};
 };
 
+// type BlogType = {
+
+// };
+
 export default function Blog() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const { blogData } = useBlogData();
+	// const [blogData, setBlogData] = useState();
+	// console.log(blogData);
 
 	const sections = blogData?.sections ?? [];
 	const [articles, setArticles] = useState<ArticleExtended[]>();
@@ -59,6 +65,7 @@ export default function Blog() {
 
 	const searchQueryDebounce = useDebounce(searchQuery, 500);
 
+	// Применение фильтров из адресной строки при загрузке
 	useEffect(() => {
 		const page = Number(searchParams.get('page'));
 
@@ -86,6 +93,7 @@ export default function Blog() {
 		}
 	}, [searchParams]);
 
+	// Запись фильтров в адресную строку
 	useEffect(() => {
 		const params = new URLSearchParams();
 
@@ -167,15 +175,15 @@ export default function Blog() {
 					populate: '*',
 				});
 
-				console.log(query);
+				// console.log(query);
 
 				const response = await request<ArticlesResponse>(
 					`articles?${query}`,
 					// `articles/?populate=*`,
 				);
 				const { data, meta } = response;
-				// console.log(dataAll);
-				console.log(meta.pagination);
+				// console.log(response);
+				// console.log(meta.pagination);
 
 				setArticles(data);
 				setPagination(meta.pagination);

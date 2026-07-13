@@ -35,7 +35,7 @@ export default function ArticleCommentForm({ articleId }: Props) {
 			text: comment,
 			userId: user!.id,
 		};
-		console.log(comentData);
+		// console.log(comentData);
 
 		try {
 			await leaveComment(comentData, jwt);

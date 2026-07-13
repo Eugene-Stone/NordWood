@@ -38,14 +38,14 @@ export default function ResetPassword() {
 		setServerError('');
 		setStatus('loading');
 
-		console.log(dataAuth);
+		// console.log(dataAuth);
 		try {
 			const response = await resetPassword({
 				...dataAuth,
 				code: code!,
 			});
 
-			console.log(response);
+			// console.log(response);
 			// login(response.jwt, response.user);
 			setStatus('success');
 			reset();
