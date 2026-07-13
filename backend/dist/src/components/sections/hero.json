@@ -1,0 +1,23 @@
+{
+    "collectionName": "components_sections_heroes",
+    "info": {
+        "displayName": "Hero"
+    },
+    "options": {},
+    "attributes": {
+        "title": {
+            "type": "text"
+        },
+        "text": {
+            "type": "richtext"
+        },
+        "image": {
+            "type": "media",
+            "multiple": false,
+            "allowedTypes": [
+                "images"
+            ]
+        }
+    },
+    "config": {}
+}

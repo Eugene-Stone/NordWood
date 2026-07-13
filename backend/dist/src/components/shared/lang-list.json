@@ -1,0 +1,15 @@
+{
+    "collectionName": "components_shared_lang_lists",
+    "info": {
+        "displayName": "LangList"
+    },
+    "options": {},
+    "attributes": {
+        "Link": {
+            "type": "component",
+            "component": "shared.link",
+            "repeatable": true
+        }
+    },
+    "config": {}
+}

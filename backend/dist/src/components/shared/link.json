@@ -1,0 +1,66 @@
+{
+    "collectionName": "components_shared_links",
+    "info": {
+        "displayName": "Link"
+    },
+    "options": {},
+    "attributes": {
+        "text": {
+            "type": "string"
+        },
+        "url": {
+            "type": "string"
+        },
+        "isExternal": {
+            "type": "boolean",
+            "default": false
+        },
+        "isButton": {
+            "type": "boolean",
+            "default": false
+        },
+        "buttonType": {
+            "type": "enumeration",
+            "conditions": {
+                "visible": {
+                    "==": [
+                        {
+                            "var": "isButton"
+                        },
+                        true
+                    ]
+                }
+            },
+            "default": "PRIMARY",
+            "enum": [
+                "PRIMARY",
+                "SECONDARY"
+            ]
+        },
+        "isLogo": {
+            "type": "boolean",
+            "default": false
+        },
+        "image": {
+            "type": "media",
+            "conditions": {
+                "visible": {
+                    "==": [
+                        {
+                            "var": "isLogo"
+                        },
+                        true
+                    ]
+                }
+            },
+            "multiple": false,
+            "allowedTypes": [
+                "images"
+            ]
+        },
+        "isAnchor": {
+            "type": "boolean"
+        }
+    },
+    "config": {}
+}

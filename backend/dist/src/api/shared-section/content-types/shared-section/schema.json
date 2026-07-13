@@ -1,0 +1,33 @@
+{
+    "kind": "collectionType",
+    "collectionName": "shared_sections",
+    "info": {
+        "singularName": "shared-section",
+        "pluralName": "shared-sections",
+        "displayName": "Shared sections"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "section": {
+            "type": "dynamiczone",
+            "components": [
+                "sections.text-section",
+                "sections.services",
+                "sections.request",
+                "sections.map",
+                "sections.hero",
+                "sections.about"
+            ],
+            "max": 1
+        }
+    }
+}

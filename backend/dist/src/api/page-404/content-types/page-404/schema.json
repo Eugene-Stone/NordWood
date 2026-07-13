@@ -1,0 +1,31 @@
+{
+    "kind": "singleType",
+    "collectionName": "page_404s",
+    "info": {
+        "singularName": "page-404",
+        "pluralName": "page-404s",
+        "displayName": "Page 404"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "link": {
+            "type": "component",
+            "component": "shared.link",
+            "repeatable": false
+        },
+        "shared_section": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::shared-section.shared-section"
+        }
+    }
+}
