@@ -10,10 +10,11 @@ import type {
 	ChangePasswordRequest,
 	CommentType,
 	ReviewResponse,
+	ArticleCommentResponse,
 } from '../types';
 import { buildQuery } from '../utils/buildQuery';
 import { BACKEND_URL } from '../../CONSTANTS';
-import { review } from '@backend-types/types';
+import { article_comment, review } from '@backend-types/types';
 
 export function loginUser(dataAuth: LoginRequest) {
 	return request<AuthResponse>('/auth/local', {
@@ -126,5 +127,24 @@ export async function deleteReview(reviewId: string, jwt: string) {
 			Authorization: `Bearer ${jwt}`,
 		},
 		// body: JSON.stringify(reviewId),
+	});
+}
+
+export async function leaveComment(
+	comentData: { documentId: string; text: string; userId: number },
+	jwt: string,
+) {
+	return await request<ArticleCommentResponse>('/article-comments', {
+		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${jwt}`,
+		},
+		body: JSON.stringify({
+			data: {
+				text: comentData.text,
+				article: comentData.documentId,
+				user: comentData.userId,
+			},
+		}),
 	});
 }

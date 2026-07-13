@@ -5,12 +5,18 @@ import Seo from '../components/Seo';
 import { BACKEND_URL } from '../../CONSTANTS';
 import RichText from '../utils/RichText';
 import useAuthContext from '../context/AuthContext/useAuthContext';
+import ArticleCommentForm from '../components/ArticleCommentForm';
+import { article, article_comment } from '@backend-types/types';
+
+// interface ArticleExtended extends article.Article_Plain {
+// 	documentId: string;
+// }
 
 export default function Article() {
 	const { slug } = useParams();
 	const { isAuthenticated } = useAuthContext();
 	const { articleData, loading } = useArticleData();
-	console.log(articleData);
+	// console.log(articleData);
 
 	if (loading) return null;
 
@@ -21,14 +27,15 @@ export default function Article() {
 		month: 'long',
 		year: 'numeric',
 	});
+	console.log(articleData);
 
 	const formattedDate = formatter.format(date);
 
 	const approvedComments = articleData?.article_comments.filter((comment) => comment.isApproved);
 
-	// if (!articleData) {
-	// 	return <Navigate to="/404" replace />;
-	// }
+	if (!articleData) {
+		return <Navigate to="/404" replace />;
+	}
 
 	// const sections = articleData?.sections ?? [];
 
@@ -76,7 +83,7 @@ export default function Article() {
 										});
 
 										const parts = formatter.formatToParts(date);
-										console.log('date parts ', parts);
+										// console.log('date parts ', parts);
 
 										const formattedDate = formatter
 											.format(date)
@@ -104,29 +111,7 @@ export default function Article() {
 					)}
 
 					{isAuthenticated ? (
-						<div className="nw-comments-area">
-							<div className="nw-comment-form-wrapper">
-								<h4 className="nw-widget-title">Оставить комментарий</h4>
-								<form className="nw-comment-form" action="#" method="POST">
-									<div className="nw-comment-field-group">
-										<label
-											className="nw-comment-label"
-											htmlFor="comment-message">
-											Ваш комментарий *
-										</label>
-										<textarea
-											className="nw-comment-textarea"
-											id="comment-message"
-											required
-											defaultValue={''}
-										/>
-									</div>
-									<button className="nw-comment-submit-button" type="submit">
-										Отправить
-									</button>
-								</form>
-							</div>
-						</div>
+						<ArticleCommentForm articleId={articleData.documentId} />
 					) : (
 						<div className="reviews__leave-notice">
 							<p>

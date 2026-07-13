@@ -10,6 +10,7 @@ import { buildQuery } from '../utils/buildQuery';
 import { BACKEND_URL, FRONTEND_URL } from '../../CONSTANTS';
 import { Link } from 'react-router-dom';
 import { useDebounce } from '../utils/useDebounce';
+import { ArticleExtended } from '../types';
 
 type Pagination = {
 	page: number;
@@ -17,8 +18,9 @@ type Pagination = {
 	pageCount: number;
 	total: number;
 };
+
 type ArticlesResponse = {
-	data: article.Article_Plain[];
+	data: ArticleExtended[];
 	meta: {
 		pagination: Pagination;
 	};
@@ -29,7 +31,7 @@ export default function Blog() {
 	const { blogData } = useBlogData();
 
 	const sections = blogData?.sections ?? [];
-	const [articles, setArticles] = useState<article.Article_Plain[]>();
+	const [articles, setArticles] = useState<ArticleExtended[]>();
 	const [sorting, setSorting] = useState('createdAt:desc');
 	const [filterItems, setFilterItems] = useState<category.Category_Plain[]>();
 	const [filtersActive, setFiltersActive] = useState<string[]>([]);

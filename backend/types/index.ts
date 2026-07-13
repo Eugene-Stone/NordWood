@@ -1,4 +1,5 @@
 export * as article from '../src/api/article/content-types/article/article';
+export * as article_comment from '../src/api/article-comment/content-types/article-comment/article-comment';
 export * as blog from '../src/api/blog/content-types/blog/blog';
 export * as category from '../src/api/category/content-types/category/category';
 export * as form from '../src/api/form/content-types/form/form';

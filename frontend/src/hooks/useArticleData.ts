@@ -3,11 +3,12 @@ import { useParams } from 'react-router-dom';
 import type { article } from '@backend-types/types';
 import request from '../api/request';
 import { buildQuery } from '../utils/buildQuery';
+import { ArticleExtended } from '../types';
 
 export default function useArticleData() {
 	const { slug } = useParams();
 
-	const [articleData, setArticleData] = useState<article.Article_Plain | null>(null);
+	const [articleData, setArticleData] = useState<ArticleExtended | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [errorFetch, setErrorFetch] = useState<string | null>(null);
 

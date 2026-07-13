@@ -1,4 +1,4 @@
-import type { User, Media, review } from '@backend-types/types';
+import type { User, Media, review, article_comment, article } from '@backend-types/types';
 
 export interface RegisterRequest {
 	username: string;
@@ -64,3 +64,8 @@ export interface CommentType {
 }
 
 export type ReviewResponse = review.Review_Plain;
+export type ArticleCommentResponse = article_comment.ArticleComment_Plain;
+
+export interface ArticleExtended extends article.Article_Plain {
+	documentId: string;
+}
