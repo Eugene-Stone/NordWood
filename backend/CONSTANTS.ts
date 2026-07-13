@@ -1,4 +1,5 @@
-export const FRONTEND_URL = 'http://localhost:5173/NordWood/';
+export const FRONTEND_URL = process.env.FRONTEND || 'http://localhost:5173/NordWood/';
+// export const FRONTEND_URL = 'http://localhost:5173/NordWood/';
 // export const FRONTEND_URL = 'https://eugene-stone.github.io/NordWood/';
 
 export const SITE = {
