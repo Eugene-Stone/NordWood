@@ -6,6 +6,7 @@ import request from '../../api/request';
 import { buildQuery } from '../../utils/buildQuery';
 import { deleteReview } from '../../api/apiAuth';
 import FormReview from './components/FormReview';
+import Preloader from '../../components/Preloader';
 
 export interface Review extends reviewType.Review_Plain {
 	documentId: string;
@@ -15,6 +16,7 @@ export default function ProfileReviews() {
 	const { user, jwt, refreshUser } = useAuthContext();
 	const [reviews, setReviews] = useState<Review[]>();
 	const [serverError, setServerError] = useState('');
+	const [loadingReviews, setLoadingReviews] = useState(true);
 	const [editingReview, setEditingReview] = useState<Review | null>(null);
 
 	const propsForm = { serverError, setServerError, editingReview, setEditingReview };
@@ -63,14 +65,16 @@ export default function ProfileReviews() {
 			} catch (error) {
 				console.log(error instanceof Error ? error.message : 'Unknown error');
 			} finally {
-				// setLoading(false);
+				setLoadingReviews(false);
 			}
 		}
 
 		fetchReviews();
 	}, [user, editingReview]);
 
-	return (
+	return loadingReviews ? (
+		<Preloader />
+	) : (
 		<>
 			<ul className="reviews__list">
 				{reviews?.map((review, i) => {

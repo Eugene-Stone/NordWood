@@ -11,6 +11,7 @@ import { BACKEND_URL, FRONTEND_URL } from '../../CONSTANTS';
 import { Link } from 'react-router-dom';
 import { useDebounce } from '../utils/useDebounce';
 import { ArticleExtended } from '../types';
+import Preloader from '../components/Preloader';
 
 type Pagination = {
 	page: number;
@@ -32,11 +33,12 @@ type ArticlesResponse = {
 
 export default function Blog() {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const { blogData } = useBlogData();
+	const { blogData, loading } = useBlogData();
 	// const [blogData, setBlogData] = useState();
 	// console.log(blogData);
 
 	const sections = blogData?.sections ?? [];
+	const [loadingArticles, setLoadingArticles] = useState(loading);
 	const [articles, setArticles] = useState<ArticleExtended[]>();
 	const [sorting, setSorting] = useState('createdAt:desc');
 	const [filterItems, setFilterItems] = useState<category.Category_Plain[]>();
@@ -187,12 +189,14 @@ export default function Blog() {
 
 				setArticles(data);
 				setPagination(meta.pagination);
+				setLoadingArticles(false);
 			} catch (error) {
 				if (error instanceof Error) {
 					// setServerError(error.message);
 					console.log(error);
 					console.log(error.message);
 				}
+				setLoadingArticles(false);
 			}
 		}
 		getArticles();
@@ -202,165 +206,176 @@ export default function Blog() {
 		<>
 			{blogData?.seo && <Seo seo={blogData.seo} />}
 
-			<section className="nw-blog-section">
-				<div className="nw-blog-container">
-					<h2 className="nw-auth-title">{blogData?.title}</h2>
-					<div className="nw-blog-grid">
-						{/* Sidebar with filters */}
-						<aside className="nw-blog-sidebar">
-							{/* Search Widget */}
-							<div className="nw-widget">
-								<h3 className="nw-widget-title">Поиск</h3>
-								<form
-									className="nw-search-form"
-									onSubmit={(e) => {
-										e.preventDefault();
+			{loading ? (
+				<Preloader />
+			) : (
+				<>
+					<section className="nw-blog-section">
+						<div className="nw-blog-container">
+							<h2 className="nw-auth-title">{blogData?.title}</h2>
+							<div className="nw-blog-grid">
+								{/* Sidebar with filters */}
+								<aside className="nw-blog-sidebar">
+									{/* Search Widget */}
+									<div className="nw-widget">
+										<h3 className="nw-widget-title">Поиск</h3>
+										<form
+											className="nw-search-form"
+											onSubmit={(e) => {
+												e.preventDefault();
 
-										/* const formData = new FormData(e.currentTarget);
+												/* const formData = new FormData(e.currentTarget);
 										const query = formData.get('search') as string; // Получаем значение по атрибуту name
 
 										setSearchQuery(query); */
-									}}>
-									<input
-										className="nw-search-input"
-										name="search" // ОБЯЗАТЕЛЬНО добавить name, если обработчик формы будет у тега form
-										type="text"
-										value={searchQuery}
-										placeholder="Поиск по статьям..."
-										onChange={(e) => setSearchQuery(e.target.value)}
-									/>
-									<button className="nw-search-button" type="submit">
-										Найти
-									</button>
-								</form>
-							</div>
-							{/* Sorting Widget */}
-							<div className="nw-widget">
-								<h3 className="nw-widget-title">Сортировка</h3>
-								<select
-									className="nw-sort-select"
-									value={sorting}
-									onChange={(e) => setSorting(e.target.value)}>
-									<option value="createdAt:desc">Сначала новые</option>
-									<option value="createdAt:asc">Сначала старые</option>
-								</select>
-							</div>
-							{/* Category Filter Widget */}
-							<div className="nw-widget">
-								<h3 className="nw-widget-title">Категории</h3>
-								<ul className="nw-filter-list">
-									{filterItems?.map((filter) => (
-										<li key={filter.slug}>
-											<label className="nw-filter-label">
-												<input
-													className="nw-filter-checkbox"
-													type="checkbox"
-													value={filter.slug}
-													checked={filtersActive.includes(filter.slug!)}
-													onChange={(e) =>
-														handleFilterChange(
-															e.target.value,
-															e.target.checked,
-														)
-													}
-												/>
-												<span>
-													{filter.title} ({filter.articles.length})
-												</span>
-											</label>
-										</li>
-									))}
-								</ul>
-							</div>
-						</aside>
-						{/* Articles Feed */}
-						<main className="nw-articles-grid">
-							{articles?.map((post, i) => {
-								// const date = new Date(post.createdAt).toLocaleDateString('uk-UA');
-
-								const date = new Date(post.createdAt);
-								// 2. Форматируем с помощью Intl
-								const formatter = new Intl.DateTimeFormat('ru-RU', {
-									day: 'numeric',
-									month: 'long',
-									year: 'numeric',
-								});
-
-								const formattedDate = formatter.format(date);
-								// console.log(formattedDate);
-
-								return (
-									<article key={i} className="nw-article-card">
-										<Link
-											viewTransition
-											to={`${FRONTEND_URL}/blog/${post.slug}`}
-											className="nw-article-img-wrapper">
-											<img
-												className="nw-article-img"
-												src={BACKEND_URL + post.image?.url}
-												alt={post.title}
+											}}>
+											<input
+												className="nw-search-input"
+												name="search" // ОБЯЗАТЕЛЬНО добавить name, если обработчик формы будет у тега form
+												type="text"
+												value={searchQuery}
+												placeholder="Поиск по статьям..."
+												onChange={(e) => setSearchQuery(e.target.value)}
 											/>
-										</Link>
-										<div className="nw-article-content">
-											<div className="nw-article-meta">
-												{formattedDate} • {post.category?.title}
-											</div>
-											<h3 className="nw-article-card-title">
+											<button className="nw-search-button" type="submit">
+												Найти
+											</button>
+										</form>
+									</div>
+									{/* Sorting Widget */}
+									<div className="nw-widget">
+										<h3 className="nw-widget-title">Сортировка</h3>
+										<select
+											className="nw-sort-select"
+											value={sorting}
+											onChange={(e) => setSorting(e.target.value)}>
+											<option value="createdAt:desc">Сначала новые</option>
+											<option value="createdAt:asc">Сначала старые</option>
+										</select>
+									</div>
+									{/* Category Filter Widget */}
+									<div className="nw-widget">
+										<h3 className="nw-widget-title">Категории</h3>
+										<ul className="nw-filter-list">
+											{filterItems?.map((filter) => (
+												<li key={filter.slug}>
+													<label className="nw-filter-label">
+														<input
+															className="nw-filter-checkbox"
+															type="checkbox"
+															value={filter.slug}
+															checked={filtersActive.includes(
+																filter.slug!,
+															)}
+															onChange={(e) =>
+																handleFilterChange(
+																	e.target.value,
+																	e.target.checked,
+																)
+															}
+														/>
+														<span>
+															{filter.title} ({filter.articles.length}
+															)
+														</span>
+													</label>
+												</li>
+											))}
+										</ul>
+									</div>
+								</aside>
+								{/* Articles Feed */}
+								<main className="nw-articles-grid">
+									{articles?.map((post, i) => {
+										// const date = new Date(post.createdAt).toLocaleDateString('uk-UA');
+
+										const date = new Date(post.createdAt);
+										// 2. Форматируем с помощью Intl
+										const formatter = new Intl.DateTimeFormat('ru-RU', {
+											day: 'numeric',
+											month: 'long',
+											year: 'numeric',
+										});
+
+										const formattedDate = formatter.format(date);
+										// console.log(formattedDate);
+
+										return (
+											<article key={i} className="nw-article-card">
 												<Link
 													viewTransition
-													to={`${FRONTEND_URL}/blog/${post.slug}`}>
-													{post.title}
+													to={`${FRONTEND_URL}/blog/${post.slug}`}
+													className="nw-article-img-wrapper">
+													<img
+														className="nw-article-img"
+														src={BACKEND_URL + post.image?.url}
+														alt={post.title}
+													/>
 												</Link>
-											</h3>
-											<p className="nw-article-excerpt">{post.description}</p>
-											<Link
-												viewTransition
-												className="nw-article-more"
-												to={`${FRONTEND_URL}/blog/${post.slug}`}>
-												Читать далее
-											</Link>
-										</div>
-									</article>
-								);
-							})}
-						</main>
-					</div>
+												<div className="nw-article-content">
+													<div className="nw-article-meta">
+														{formattedDate} • {post.category?.title}
+													</div>
+													<h3 className="nw-article-card-title">
+														<Link
+															viewTransition
+															to={`${FRONTEND_URL}/blog/${post.slug}`}>
+															{post.title}
+														</Link>
+													</h3>
+													<p className="nw-article-excerpt">
+														{post.description}
+													</p>
+													<Link
+														viewTransition
+														className="nw-article-more"
+														to={`${FRONTEND_URL}/blog/${post.slug}`}>
+														Читать далее
+													</Link>
+												</div>
+											</article>
+										);
+									})}
+								</main>
+							</div>
 
-					<nav className="nw-pagination" aria-label="Навигация по страницам">
-						<button
-							className="nw-pagination-item nw-pagination-arrow"
-							onClick={prevPage}
-							type="button"
-							aria-label="Предыдущая страница">
-							‹
-						</button>
-
-						{pagination &&
-							Array.from({ length: pagination?.pageCount }, (_, i) => (
+							<nav className="nw-pagination" aria-label="Навигация по страницам">
 								<button
-									key={i}
-									className={
-										pageCurrent === i + 1
-											? 'nw-pagination-item nw-pagination-item-active'
-											: 'nw-pagination-item'
-									}
-									onClick={() => setPageCurrent(i + 1)}>
-									{i + 1}
+									className="nw-pagination-item nw-pagination-arrow"
+									onClick={prevPage}
+									type="button"
+									aria-label="Предыдущая страница">
+									‹
 								</button>
-							))}
 
-						<button
-							className="nw-pagination-item nw-pagination-arrow"
-							onClick={nextPage}
-							type="button"
-							aria-label="Следующая страница">
-							›
-						</button>
-					</nav>
-				</div>
-			</section>
+								{pagination &&
+									Array.from({ length: pagination?.pageCount }, (_, i) => (
+										<button
+											key={i}
+											className={
+												pageCurrent === i + 1
+													? 'nw-pagination-item nw-pagination-item-active'
+													: 'nw-pagination-item'
+											}
+											onClick={() => setPageCurrent(i + 1)}>
+											{i + 1}
+										</button>
+									))}
 
-			<DynamicSections sections={sections} />
+								<button
+									className="nw-pagination-item nw-pagination-arrow"
+									onClick={nextPage}
+									type="button"
+									aria-label="Следующая страница">
+									›
+								</button>
+							</nav>
+						</div>
+					</section>
+
+					<DynamicSections sections={sections} />
+				</>
+			)}
 		</>
 	);
 }

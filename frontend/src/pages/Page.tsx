@@ -2,6 +2,7 @@ import { useParams, Navigate } from 'react-router-dom';
 import usePageData from '../hooks/usePageData';
 import DynamicSections from '../components/DynamicSections';
 import Seo from '../components/Seo';
+import Preloader from '../components/Preloader';
 
 export default function Page() {
 	const { slug } = useParams();
@@ -19,7 +20,8 @@ export default function Page() {
 	return (
 		<>
 			{pageData?.seo && <Seo seo={pageData.seo} />}
-			<DynamicSections sections={sections} />
+
+			{loading ? <Preloader /> : <DynamicSections sections={sections} />}
 		</>
 	);
 }

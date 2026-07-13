@@ -1,22 +1,24 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import useAuthContext from '../../context/AuthContext/useAuthContext';
 import { useEffect } from 'react';
+import Preloader from '../../components/Preloader';
 
 export default function ProfileLayout() {
 	const navigate = useNavigate();
-	const { isAuthenticated, logout } = useAuthContext();
+	const { isAuthenticated, logout, loading } = useAuthContext();
 
 	useEffect(() => {
-		if (!isAuthenticated) {
-			// navigate('/login', {
+		if (!loading && !isAuthenticated) {
 			navigate('/login', {
 				replace: true,
 				viewTransition: true,
 			});
 		}
-	}, [navigate, isAuthenticated]);
+	}, [navigate, isAuthenticated, loading]);
 
-	return (
+	return loading ? (
+		<Preloader />
+	) : (
 		<section className="nw-profile-section">
 			<div className="nw-profile-container">
 				<h2 className="nw-auth-title">Личный кабинет</h2>
