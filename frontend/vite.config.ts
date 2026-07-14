@@ -6,4 +6,7 @@ export default defineConfig({
 	plugins: [react()],
 	// base: '/NordWood/',
 	// base: process.env.NODE_ENV === 'production' ? '/NordWood/' : '/NordWood',
+
+	// eslint-disable-next-line
+	base: (import.meta as any).env.VITE_FRONTEND ? '' : '/NordWood',
 });

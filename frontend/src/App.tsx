@@ -82,6 +82,8 @@ const router = createBrowserRouter(
 		},
 	],
 	// { basename: '/NordWood' },
+	// eslint-disable-next-line
+	{ basename: (import.meta as any).env.VITE_FRONTEND ? '' : '/NordWood' },
 );
 
 export default function App() {
