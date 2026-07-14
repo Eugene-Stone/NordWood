@@ -149,7 +149,8 @@ export default function Form({ data }: Props) {
 															required: field.isRequired
 																? 'This field is required'
 																: false,
-														})}>
+														})}
+														aria-label="Выберите вариант мебели">
 														{field.options.map((option, i) => {
 															return (
 																<option

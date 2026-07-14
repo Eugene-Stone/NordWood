@@ -108,8 +108,14 @@ export default function Reviews({ data }: Props) {
 						<div className="swiper-pagination" />
 					</div>
 					<div className="slider-navigation">
-						<button type="button" className="swiper-button swiper-button-prev"></button>
-						<button type="button" className="swiper-button swiper-button-next"></button>
+						<button
+							type="button"
+							className="swiper-button swiper-button-prev"
+							aria-label="Slide prev"></button>
+						<button
+							type="button"
+							className="swiper-button swiper-button-next"
+							aria-label="Slide next"></button>
 					</div>
 				</div>
 			</div>

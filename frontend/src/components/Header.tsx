@@ -30,7 +30,12 @@ export default function Header() {
 									onClick={scrollToTop}
 									className="logo"
 									viewTransition>
-									<img src={BACKEND_URL + Logo?.image?.url} alt={Logo?.text} />
+									<img
+										src={BACKEND_URL + Logo?.image?.url}
+										alt={Logo?.text}
+										width="71"
+										height="42"
+									/>
 								</NavLink>
 								{/* <a href={'/'} className="logo">
 									<img src={BACKEND_URL + Logo?.image?.url} alt={Logo?.text} />

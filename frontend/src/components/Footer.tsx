@@ -30,7 +30,12 @@ export default function Footer() {
 						<div className="foot-cell">
 							<div className="logo-wrap">
 								<a href="/" className="logo">
-									<img src={BACKEND_URL + Logo?.image?.url} alt={Logo?.text} />
+									<img
+										src={BACKEND_URL + Logo?.image?.url}
+										alt={Logo?.text}
+										width="61"
+										height="36"
+									/>
 								</a>
 							</div>
 						</div>
