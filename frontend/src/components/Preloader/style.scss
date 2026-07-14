@@ -1,12 +1,16 @@
-.layout {
-	position: relative;
-}
-
+.layout,
 .nw-profile-content {
 	position: relative;
 }
 
-.preloader{
+.page-wrap {
+	>.preloader {
+		position: relative;
+		height: calc(100vh - 72px);
+	}
+}
+
+.preloader {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -18,16 +22,20 @@
 	height: 100%;
 	background-color: #fff;
 }
+
 .loader {
 	width: 50px;
 	aspect-ratio: 1;
 	border-radius: 50%;
-	background: 
-			radial-gradient(farthest-side,#b8976e 94%,#0000) top/8px 8px no-repeat,
-			conic-gradient(#0000 30%,#b8976e);
-	-webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+	background:
+		radial-gradient(farthest-side, #b8976e 94%, #0000) top/8px 8px no-repeat,
+		conic-gradient(#0000 30%, #b8976e);
+	-webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
 	animation: l13 1s infinite linear;
 }
-@keyframes l13{ 
-	100%{transform: rotate(1turn)}
+
+@keyframes l13 {
+	100% {
+		transform: rotate(1turn)
+	}
 }

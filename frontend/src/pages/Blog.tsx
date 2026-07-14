@@ -306,11 +306,35 @@ export default function Blog() {
 													viewTransition
 													to={`${FRONTEND_URL}/blog/${post.slug}`}
 													className="nw-article-img-wrapper">
-													<img
-														className="nw-article-img"
-														src={BACKEND_URL + post.image?.url}
-														alt={post.title}
-													/>
+													{post.image && (
+														<picture>
+															{post.image.formats && (
+																<source
+																	srcSet={`
+																		${BACKEND_URL + post.image.formats.large.url} ${post.image.formats.large.width}w,
+																		${BACKEND_URL + post.image.formats.medium.url} ${post.image.formats.medium.width}w,
+																		${BACKEND_URL + post.image.formats.small.url} ${post.image.formats.small.width}w,
+																		${BACKEND_URL + post.image.formats.thumbnail.url} ${post.image.formats.thumbnail.width}w,
+																	`}
+																	sizes="
+																		(min-width: 1200px) 420px,
+																		(min-width: 992px) 33vw,
+																		(min-width: 640px) 50vw,
+																		100vw
+																	"
+																/>
+															)}
+
+															<img
+																className="nw-article-img"
+																src={BACKEND_URL + post.image?.url}
+																alt={post.title}
+																width={post.image.width}
+																height={post.image.height}
+																loading="lazy"
+															/>
+														</picture>
+													)}
 												</Link>
 												<div className="nw-article-content">
 													<div className="nw-article-meta">

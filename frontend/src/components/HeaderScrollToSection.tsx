@@ -93,6 +93,7 @@ export default function HeaderScrollToSection({
 			<li className={activeSection === url.replace('#', '') ? 'active-li' : ''}>
 				<Link
 					className="menu__link"
+					href={url}
 					to={url.replace('#', '')}
 					spy={true}
 					activeClass="active"

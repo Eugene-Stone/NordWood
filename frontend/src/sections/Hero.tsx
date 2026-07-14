@@ -8,6 +8,7 @@ type Props = {
 
 export default function Hero({ data }: Props) {
 	const { title, text, image } = data;
+	const srcSetOn = image?.formats;
 
 	return (
 		<section className="top-screen bg-color-1">
@@ -30,12 +31,33 @@ export default function Hero({ data }: Props) {
 							{image && (
 								<div className="top-screen-image-box">
 									<div className="top-screen-image">
-										<img
-											src={BACKEND_URL + image.url}
-											alt="NordWood"
-											// loading="lazy"
-											fetchPriority="high"
-										/>
+										<picture>
+											{srcSetOn && (
+												<source
+													srcSet={`
+														${BACKEND_URL + image.formats.large.url} ${image.formats.large.width}w,
+														${BACKEND_URL + image.formats.medium.url} ${image.formats.medium.width}w,
+														${BACKEND_URL + image.formats.small.url} ${image.formats.small.width}w,
+														${BACKEND_URL + image.formats.thumbnail.url} ${image.formats.thumbnail.width}w,
+													`}
+													sizes="
+														(min-width: 1200px) 625px,
+														(min-width: 992px) 476px,
+														(min-width: 576px) 400px,
+														100vw
+													"
+												/>
+											)}
+
+											<img
+												src={BACKEND_URL + image.url}
+												alt={title}
+												width={image.width}
+												height={image.height}
+												// loading="lazy"
+												fetchPriority="high"
+											/>
+										</picture>
 									</div>
 								</div>
 							)}

@@ -35,7 +35,11 @@ export default function HeaderMenu({ className, setMenuOpen, links }: Props) {
 		} else {
 			return (
 				<li className={isActive ? 'active-li' : ''} key={i}>
-					<NavLink to={url} target={target} viewTransition>
+					<NavLink
+						onClick={() => setMenuOpen(false)}
+						to={url}
+						target={target}
+						viewTransition>
 						{text}
 					</NavLink>
 				</li>

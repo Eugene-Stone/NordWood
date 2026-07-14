@@ -30,6 +30,7 @@ export default function MapSect({ data }: Props) {
 							style={{ width: '100%', aspectRatio: '2 / 1' }}
 							src={`https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`}
 							loading="lazy"
+							title={title}
 							allowFullScreen
 						/>
 					</div>

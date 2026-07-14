@@ -50,7 +50,7 @@ export default function Header() {
 
 							<div className="login-link">
 								{isAuthenticated ? (
-									<Link to="/profile" viewTransition>
+									<Link to="/profile" viewTransition aria-label="Profile">
 										<svg
 											fill="none"
 											height={30}
@@ -67,7 +67,7 @@ export default function Header() {
 										</svg>
 									</Link>
 								) : (
-									<Link to="/login" viewTransition>
+									<Link to="/login" viewTransition aria-label="Login">
 										<svg
 											style={{ display: 'block' }}
 											fill="none"
@@ -89,6 +89,7 @@ export default function Header() {
 							</div>
 
 							<button
+								aria-label="Open menu"
 								className={`toggle-btn ${menuOpen ? 'on' : ''}`}
 								onClick={toggleMenu}>
 								<span />

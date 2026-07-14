@@ -16,6 +16,7 @@ type Props = {
 
 export default function Gallery({ data }: Props) {
 	const { title, gallery } = data;
+	console.log(gallery);
 
 	const [index, setIndex] = useState(-1);
 
@@ -85,19 +86,50 @@ export default function Gallery({ data }: Props) {
 					<div className="gallery-box masonry-box">
 						<div ref={masonryRef} className="gallery-lst masonry-lst">
 							{images?.map((image, i) => {
+								const formatsArray = image?.formats
+									? Object.entries(image.formats)
+											.map(([key, value]) => ({
+												type: key, // 'large', 'medium', 'small', 'thumbnail'
+												...value, // copy url, width, height...
+											}))
+											.sort((a, b) => b.width - a.width)
+									: [];
+
+								// console.log(formatsArray);
+
 								return (
 									<div key={i} className="gallery-itm masonry-itm">
 										<span className="gallery-itm-lnk">
-											<img
-												src={BACKEND_URL + image.url}
-												className="main-img"
-												onClick={() => setIndex(i)}
-												alt={
-													image.alternativeText
-														? image.alternativeText
-														: ''
-												}
-											/>
+											<picture>
+												{formatsArray.length > 0 && (
+													<source
+														srcSet={formatsArray
+															.map(
+																(format) =>
+																	`${BACKEND_URL}${format.url} ${format.width}w`,
+															)
+															.join(', ')}
+														sizes="
+															(min-width: 992px) 33vw,
+															50vw
+														"
+													/>
+												)}
+
+												<img
+													src={BACKEND_URL + image.url}
+													className="main-img"
+													onClick={() => setIndex(i)}
+													alt={
+														image.alternativeText
+															? image.alternativeText
+															: ''
+													}
+													width={image.width}
+													height={image.height}
+													loading="lazy"
+												/>
+											</picture>
 										</span>
 									</div>
 								);

@@ -7,6 +7,8 @@ type Props = {
 };
 export default function About({ data }: Props) {
 	const { title, text, image } = data;
+	const srcSetOn = image?.formats;
+
 	return (
 		<section id="about" className="sect-txt bg-color-1">
 			<div className="sect-inner">
@@ -22,12 +24,32 @@ export default function About({ data }: Props) {
 						<div className="row justify-content-center">
 							<div className="col-lg-6">
 								{image && (
-									<img
-										src={BACKEND_URL + image.url}
-										alt={image.alternativeText}
-										width={image.width}
-										height={image.height}
-									/>
+									<picture>
+										{srcSetOn && (
+											<source
+												srcSet={`
+													${BACKEND_URL + image.formats.large.url} ${image.formats.large.width}w,
+													${BACKEND_URL + image.formats.medium.url} ${image.formats.medium.width}w,
+													${BACKEND_URL + image.formats.small.url} ${image.formats.small.width}w,
+													${BACKEND_URL + image.formats.thumbnail.url} ${image.formats.thumbnail.width}w,
+												`}
+												sizes="
+													(min-width: 1200px) 625px,
+													(min-width: 992px) 476px,
+													(min-width: 576px) 400px,
+													100vw
+												"
+											/>
+										)}
+
+										<img
+											src={BACKEND_URL + image.url}
+											alt={title}
+											width={image.width}
+											height={image.height}
+											loading="lazy"
+										/>
+									</picture>
 								)}
 							</div>
 							<div className="col-lg-6">

@@ -17,7 +17,11 @@ export default function Article() {
 	const { slug } = useParams();
 	const { isAuthenticated } = useAuthContext();
 	const { articleData, loading } = useArticleData();
-	// console.log(articleData);
+
+	const image = articleData?.image;
+	const srcSetOn = image?.formats;
+
+	console.log(srcSetOn);
 
 	if (loading) return null;
 
@@ -28,7 +32,6 @@ export default function Article() {
 		month: 'long',
 		year: 'numeric',
 	});
-	console.log(articleData);
 
 	const formattedDate = formatter.format(date);
 
@@ -59,11 +62,33 @@ export default function Article() {
 						</header>
 						{/* Main Image */}
 						<div className="nw-post-main-img-wrapper">
-							<img
-								className="nw-post-main-img"
-								src={BACKEND_URL + articleData?.image?.url}
-								alt={articleData?.title}
-							/>
+							{image && (
+								<picture>
+									{srcSetOn && (
+										<source
+											srcSet={`
+												${BACKEND_URL + image.formats.large.url} ${image.formats.large.width}w,
+												${BACKEND_URL + image.formats.medium.url} ${image.formats.medium.width}w,
+												${BACKEND_URL + image.formats.small.url} ${image.formats.small.width}w,
+												${BACKEND_URL + image.formats.thumbnail.url} ${image.formats.thumbnail.width}w,
+											`}
+											sizes="
+												(min-width: 768px) 718px,
+												100vw
+											"
+										/>
+									)}
+
+									<img
+										className="nw-post-main-img"
+										src={BACKEND_URL + articleData?.image?.url}
+										alt={articleData?.title}
+										width={image.width}
+										height={image.height}
+										fetchPriority="high"
+									/>
+								</picture>
+							)}
 						</div>
 						{/* Post Content Body */}
 						<RichText className="nw-post-body">{articleData?.text}</RichText>
