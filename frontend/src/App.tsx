@@ -81,7 +81,7 @@ const router = createBrowserRouter(
 			],
 		},
 	],
-	{ basename: '/NordWood' },
+	// { basename: '/NordWood' },
 );
 
 export default function App() {

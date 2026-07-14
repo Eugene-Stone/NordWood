@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
 	plugins: [react()],
 	// base: '/NordWood/',
-	base: process.env.NODE_ENV === 'production' ? '/NordWood/' : '/NordWood',
+	// base: process.env.NODE_ENV === 'production' ? '/NordWood/' : '/NordWood',
 });
