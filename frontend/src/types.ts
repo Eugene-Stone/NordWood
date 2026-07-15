@@ -69,3 +69,10 @@ export type ArticleCommentResponse = article_comment.ArticleComment_Plain;
 export interface ArticleExtended extends article.Article_Plain {
 	documentId: string;
 }
+
+export type Pagination = {
+	page: number;
+	pageSize: number;
+	pageCount: number;
+	total: number;
+};

@@ -21,7 +21,7 @@ export default function Article() {
 	const image = articleData?.image;
 	const srcSetOn = image?.formats;
 
-	console.log(srcSetOn);
+	// console.log(srcSetOn);
 
 	if (loading) return null;
 

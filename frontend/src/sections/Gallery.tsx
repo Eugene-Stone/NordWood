@@ -16,7 +16,7 @@ type Props = {
 
 export default function Gallery({ data }: Props) {
 	const { title, gallery } = data;
-	console.log(gallery);
+	// console.log(gallery);
 
 	const [index, setIndex] = useState(-1);
 
@@ -62,14 +62,6 @@ export default function Gallery({ data }: Props) {
 
 		return () => window.removeEventListener('resize', resize);
 	}, []);
-
-	const photos =
-		images?.map((image) => ({
-			src: BACKEND_URL + image.url,
-			width: image.width,
-			height: image.height,
-			alt: image.alternativeText ?? '',
-		})) ?? [];
 
 	return (
 		<section id="gallery" className="sect-gallery bg-color-1">

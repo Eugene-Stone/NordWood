@@ -10,15 +10,8 @@ import { buildQuery } from '../utils/buildQuery';
 import { BACKEND_URL, FRONTEND_URL } from '../../CONSTANTS';
 import { Link } from 'react-router-dom';
 import { useDebounce } from '../utils/useDebounce';
-import { ArticleExtended } from '../types';
+import { ArticleExtended, Pagination } from '../types';
 import Preloader from '../components/Preloader';
-
-type Pagination = {
-	page: number;
-	pageSize: number;
-	pageCount: number;
-	total: number;
-};
 
 type ArticlesResponse = {
 	data: ArticleExtended[];
