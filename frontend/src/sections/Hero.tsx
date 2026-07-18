@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import type { Hero as HeroType } from '@backend-types/types';
-import { BACKEND_URL } from '../../CONSTANTS';
+import { BACKEND_URL } from '@/lib/constants';
 
 type Props = {
 	data: HeroType.Hero_Plain;

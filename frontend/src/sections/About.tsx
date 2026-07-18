@@ -1,6 +1,6 @@
 import type { About as AboutType } from '@backend-types/types';
 import RichText from '../utils/RichText';
-import { BACKEND_URL } from '../../CONSTANTS';
+import { BACKEND_URL } from '@/lib/constants';
 
 type Props = {
 	data: AboutType.About_Plain;

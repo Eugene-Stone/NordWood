@@ -1,4 +1,4 @@
-import { BACKEND_URL } from '../../CONSTANTS';
+import { BACKEND_URL } from '@/lib/constants';
 
 const BASE_URL = `${BACKEND_URL}/api`;
 

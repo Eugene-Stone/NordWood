@@ -1,10 +1,14 @@
 import type { ReactNode, Dispatch, SetStateAction } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { Link, scroller } from 'react-scroll';
-import { FRONTEND_URL } from '../../CONSTANTS';
+
+type RouterLike = {
+	push: (href: string) => void;
+};
 
 type Props = {
 	url: string;
+	pathname: string;
+	router: RouterLike;
 	children: ReactNode;
 	activeSection: string;
 	setActiveSection: Dispatch<SetStateAction<string>>;
@@ -13,43 +17,28 @@ type Props = {
 
 export default function HeaderScrollToSection({
 	url,
+	pathname,
+	router,
 	activeSection,
 	setActiveSection,
 	children,
 	setMenuOpen,
 }: Props) {
-	const location = useLocation();
-	const navigate = useNavigate();
-	// console.log(url);
-
 	const handleSetActive = (to: string) => {
 		setActiveSection(to);
 	};
-	// console.log(activeSection);
-
-	// const scrollToSection = (to: string) => {
-	// 	navigate('/', {
-	// 		viewTransition: true,
-	// 	});
-
-	// 	setTimeout(() => {
-	// 		scroller.scrollTo(to.replace('#', ''), {
-	// 			smooth: true,
-	// 			offset: -70,
-	// 			duration: 900,
-	// 		});
-	// 	}, 500);
-	// };
 
 	const scrollToSection = (to: string) => {
-		navigate('/', {
-			viewTransition: true,
-		});
+		// Если пользователь находится не на главной, сначала переходим на `/`,
+		// потому что якорные секции живут именно там.
+		router.push('/');
 
 		const targetId = to.replace('#', '');
-		const PRELOADER_SELECTOR = '.preloader'; // Замени на свой класс/селектор
+		const PRELOADER_SELECTOR = '.preloader';
 
 		const executeScroll = () => {
+			// react-scroll отвечает только за плавную прокрутку внутри уже открытой страницы.
+			// Навигацию между страницами делает Next router выше.
 			scroller.scrollTo(targetId, {
 				smooth: true,
 				offset: -70,
@@ -59,27 +48,26 @@ export default function HeaderScrollToSection({
 
 		let preloaderDetected = false;
 
+		// После перехода на главную может появиться прелоадер.
+		// MutationObserver ждёт, пока он исчезнет, и только потом скроллит к секции.
 		const observer = new MutationObserver((mutations, obs) => {
 			const preloader = document.querySelector(PRELOADER_SELECTOR);
 
 			if (preloader) {
-				// Фиксируем, что прелоадер появился в DOM
 				preloaderDetected = true;
 			} else if (preloaderDetected && !preloader) {
-				// Если прелоадер БЫЛ, но теперь его НЕТ — скроллим и отключаем observer
 				executeScroll();
 				obs.disconnect();
 			}
 		});
 
-		// Начинаем следить за DOM сразу после вызова navigate
 		observer.observe(document.body, {
 			childList: true,
 			subtree: true,
 		});
 
-		// Предохранитель: если прелоадер вообще не появился в течение 1.5 секунд,
-		// скроллим принудительно, чтобы страница не "зависла" без скролла
+		// Предохранитель: если прелоадер не появился, всё равно скроллим.
+		// Без этого редкий сценарий мог бы оставить пользователя на верху страницы.
 		setTimeout(() => {
 			if (!preloaderDetected) {
 				executeScroll();
@@ -88,9 +76,9 @@ export default function HeaderScrollToSection({
 		}, 1500);
 	};
 
-	if (location.pathname === '/') {
+	if (pathname === '/') {
 		return (
-			<li className={activeSection === url.replace('#', '') ? 'active-li' : ''}>
+			<li className={activeSection === url.replace('#', '') ? 'activeLi' : ''}>
 				<Link
 					className="menu__link"
 					href={url}

@@ -13,7 +13,7 @@ import type {
 	ArticleCommentResponse,
 } from '../types';
 import { buildQuery } from '../utils/buildQuery';
-import { BACKEND_URL } from '../../CONSTANTS';
+import { BACKEND_URL } from '@/lib/constants';
 import { article_comment, review } from '@backend-types/types';
 
 export function loginUser(dataAuth: LoginRequest) {

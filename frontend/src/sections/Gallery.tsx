@@ -1,10 +1,11 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 
 import type { GalleryComponent } from '@backend-types/types';
-import { BACKEND_URL } from '../../CONSTANTS';
+import { BACKEND_URL } from '@/lib/constants';
+import type Masonry from 'masonry-layout';
 
-import Masonry from 'masonry-layout';
-import imagesLoaded from 'imagesloaded';
 import Lightbox from 'yet-another-react-lightbox';
 import Counter from 'yet-another-react-lightbox/plugins/counter';
 import 'yet-another-react-lightbox/styles.css';
@@ -16,7 +17,6 @@ type Props = {
 
 export default function Gallery({ data }: Props) {
 	const { title, gallery } = data;
-	// console.log(gallery);
 
 	const [index, setIndex] = useState(-1);
 
@@ -25,36 +25,57 @@ export default function Gallery({ data }: Props) {
 
 	const images = gallery?.images;
 
-	const slidesLightbox = images?.map((img, i) => {
+	const slidesLightbox = images?.map((img) => {
 		return { src: BACKEND_URL + img.url };
 	});
 
-	// Создание
+	// Masonry зависит от window, поэтому инициализируем его только на клиенте в useEffect.
+	// Динамический import не даёт библиотеке попасть в серверный рендер.
 	useEffect(() => {
 		if (!masonryRef.current) return;
 
-		masonryInstance.current = new Masonry(masonryRef.current, {
-			itemSelector: '.gallery-itm',
-			percentPosition: true,
-		});
+		let isMounted = true;
+
+		async function initMasonry() {
+			const Masonry = (await import('masonry-layout')).default;
+
+			if (!isMounted || !masonryRef.current) return;
+
+			masonryInstance.current = new Masonry(masonryRef.current, {
+				itemSelector: '.gallery-itm',
+				percentPosition: true,
+			});
+		}
+
+		initMasonry();
 
 		return () => {
+			isMounted = false;
 			masonryInstance.current?.destroy?.();
 			masonryInstance.current = null;
 		};
 	}, []);
 
-	// Когда изображения изменились:
+	// Когда изображения догрузились, пересчитываем сетку.
+	// Без этого Masonry может измерить карточки до загрузки картинок и получить неправильные высоты.
 	useEffect(() => {
 		if (!masonryRef.current || !masonryInstance.current) return;
 
-		imagesLoaded(masonryRef.current, () => {
-			masonryInstance.current?.reloadItems?.();
-			masonryInstance.current?.layout?.();
-		});
+		async function relayoutAfterImagesLoad() {
+			const imagesLoaded = (await import('imagesloaded')).default;
+
+			if (!masonryRef.current || !masonryInstance.current) return;
+
+			imagesLoaded(masonryRef.current, () => {
+				masonryInstance.current?.reloadItems?.();
+				masonryInstance.current?.layout?.();
+			});
+		}
+
+		relayoutAfterImagesLoad();
 	}, [images]);
 
-	// При изменении размера окна
+	// При изменении размера окна просим Masonry пересчитать позиции элементов.
 	useEffect(() => {
 		const resize = () => masonryInstance.current?.layout?.();
 

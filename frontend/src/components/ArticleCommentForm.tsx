@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import useAuthContext from '../context/AuthContext/useAuthContext';
 import { useForm } from 'react-hook-form';

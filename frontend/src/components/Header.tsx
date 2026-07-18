@@ -1,22 +1,21 @@
-import useGlobalDataContext from '../context/GlobalDataContext/useGlobalDataContext';
-import { BACKEND_URL } from '../../CONSTANTS';
-import HeaderMenu from './HeaderMenu';
-import HeaderLangList from './HeaderLangList';
+'use client';
+
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import useAuthContext from '../context/AuthContext/useAuthContext';
-import { scrollToTop } from '../utils/scrollToTop';
+import Link from 'next/link';
+import { BACKEND_URL } from '@/lib/constants';
+import type { global } from '@backend-types/types';
+import HeaderMenu from './HeaderMenu';
+import useAuthContext from '@/context/AuthContext/useAuthContext';
 
-export default function Header() {
-	const { globalData } = useGlobalDataContext();
-	const { LangList, Logo, Menu } = globalData!.Header!;
+type Props = {
+	globalData: global.Global_Plain | null;
+};
+
+export default function Header({ globalData }: Props) {
 	const [menuOpen, setMenuOpen] = useState(false);
-
-	const { isAuthenticated, logout } = useAuthContext();
-
-	function toggleMenu() {
-		setMenuOpen(!menuOpen);
-	}
+	const { isAuthenticated } = useAuthContext();
+	const { Header: headerData } = globalData ?? {};
+	const { Logo, Menu } = headerData ?? {};
 
 	return (
 		<header className="head-general">
@@ -25,21 +24,16 @@ export default function Header() {
 					<div className="head-line">
 						<div className="head-cell">
 							<div className="logo-wrap">
-								<NavLink
-									to={'/'}
-									onClick={scrollToTop}
-									className="logo"
-									viewTransition>
-									<img
-										src={BACKEND_URL + Logo?.image?.url}
-										alt={Logo?.text}
-										width="71"
-										height="42"
-									/>
-								</NavLink>
-								{/* <a href={'/'} className="logo">
-									<img src={BACKEND_URL + Logo?.image?.url} alt={Logo?.text} />
-								</a> */}
+								<Link href="/" className="logo">
+									{Logo?.image?.url && (
+										<img
+											src={BACKEND_URL + Logo.image.url}
+											alt={Logo.text ?? 'NordWood'}
+											width="71"
+											height="42"
+										/>
+									)}
+								</Link>
 							</div>
 						</div>
 						<div className="head-cell">
@@ -50,12 +44,9 @@ export default function Header() {
 									links={Menu}
 								/>
 							)}
-
-							{/* {LangList && <HeaderLangList langList={LangList} />} */}
-
 							<div className="login-link">
 								{isAuthenticated ? (
-									<Link to="/profile" viewTransition aria-label="Profile">
+									<Link href="/profile" aria-label="Profile">
 										<svg
 											fill="none"
 											height={30}
@@ -72,7 +63,7 @@ export default function Header() {
 										</svg>
 									</Link>
 								) : (
-									<Link to="/login" viewTransition aria-label="Login">
+									<Link href="/login" aria-label="Login">
 										<svg
 											style={{ display: 'block' }}
 											fill="none"
@@ -92,11 +83,10 @@ export default function Header() {
 									</Link>
 								)}
 							</div>
-
 							<button
 								aria-label="Open menu"
 								className={`toggle-btn ${menuOpen ? 'on' : ''}`}
-								onClick={toggleMenu}>
+								onClick={() => setMenuOpen((prev) => !prev)}>
 								<span />
 							</button>
 						</div>

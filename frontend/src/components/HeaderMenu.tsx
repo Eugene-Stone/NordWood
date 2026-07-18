@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import HeaderScrollToSection from './HeaderScrollToSection';
 
 import type { MenuMain } from '@backend-types/types';
@@ -11,21 +12,23 @@ type Props = {
 };
 
 export default function HeaderMenu({ className, setMenuOpen, links }: Props) {
-	const location = useLocation();
-
+	const pathname = usePathname();
+	const router = useRouter();
 	const [activeSection, setActiveSection] = useState('');
 
 	const menuHeader = links.MenuLink.map((link, i) => {
 		const target = link.isExternal ? '_blank' : undefined;
 		const url = link.url || '';
 		const text = link.text || '';
-		const isActive = location.pathname === url;
+		const isActive = pathname === url;
 
 		if (link.isAnchor) {
 			return (
 				<HeaderScrollToSection
 					key={i}
 					url={url}
+					pathname={pathname}
+					router={router}
 					activeSection={activeSection}
 					setActiveSection={setActiveSection}
 					setMenuOpen={setMenuOpen}>
@@ -34,14 +37,13 @@ export default function HeaderMenu({ className, setMenuOpen, links }: Props) {
 			);
 		} else {
 			return (
-				<li className={isActive ? 'active-li' : ''} key={i}>
-					<NavLink
+				<li className={isActive ? 'activeLi' : ''} key={i}>
+					<Link
 						onClick={() => setMenuOpen(false)}
-						to={url}
-						target={target}
-						viewTransition>
+						href={url || '/'}
+						target={target}>
 						{text}
-					</NavLink>
+					</Link>
 				</li>
 			);
 		}
